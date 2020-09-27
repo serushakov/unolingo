@@ -1,4 +1,4 @@
-package com.example.unolingo
+package com.sushakov.unolingo
 
 import org.junit.Test
 

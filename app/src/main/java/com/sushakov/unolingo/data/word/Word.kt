@@ -1,21 +1,32 @@
-package com.example.word
+package com.sushakov.unolingo.data.word
 
-data class Word(val lang: String, val text: String) {
-    private val translations = mutableMapOf<String, MutableSet<Word>>()
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-    fun addTranslation(t: Word) {
-        (translations.getOrPut(t.lang) { mutableSetOf() }) += t
-    }
+@Entity
+data class Word(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @ColumnInfo val lang: String,
+    @ColumnInfo val text: String
+) {
+// TODO: Setup relationship data
 
-    fun addTranslations(ts: Set<Word>) {
-        ts.forEach(::addTranslation)
-    }
-
-    fun isTranslation(word: Word): Boolean {
-        return translations.getOrElse(word.lang) {
-            return false
-        }.contains(word)
-    }
+//    private val translations = mutableMapOf<String, MutableSet<Word>>()
+//
+//    fun addTranslation(t: Word) {
+//        (translations.getOrPut(t.lang) { mutableSetOf() }) += t
+//    }
+//
+//    fun addTranslations(ts: Set<Word>) {
+//        ts.forEach(::addTranslation)
+//    }
+//
+//    fun isTranslation(word: Word): Boolean {
+//        return translations.getOrElse(word.lang) {
+//            return false
+//        }.contains(word)
+//    }
 
 //    fun translationCount(lang: String): Int = translations.getOrDefault(lang, mutableSetOf()).size
 

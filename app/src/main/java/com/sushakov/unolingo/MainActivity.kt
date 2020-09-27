@@ -1,4 +1,4 @@
-package com.example.unolingo
+package com.sushakov.unolingo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
