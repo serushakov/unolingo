@@ -3,6 +3,7 @@ package com.sushakov.unolingo.data.word
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 
 @Entity
 data class Word(
@@ -10,25 +11,21 @@ data class Word(
     @ColumnInfo val lang: String,
     @ColumnInfo val text: String
 ) {
-// TODO: Setup relationship data
 
-//    private val translations = mutableMapOf<String, MutableSet<Word>>()
-//
+    // TODO: Redo with DAO
 //    fun addTranslation(t: Word) {
-//        (translations.getOrPut(t.lang) { mutableSetOf() }) += t
+//        translations.add(t)
 //    }
 //
 //    fun addTranslations(ts: Set<Word>) {
 //        ts.forEach(::addTranslation)
 //    }
-//
-//    fun isTranslation(word: Word): Boolean {
-//        return translations.getOrElse(word.lang) {
-//            return false
-//        }.contains(word)
-//    }
 
-//    fun translationCount(lang: String): Int = translations.getOrDefault(lang, mutableSetOf()).size
+//    fun isTranslation(word: Word): Boolean {
+//        return translations.contains(word)
+//    }
+//
+//    fun translationCount(lang: String): Int = translations.size
 
     // Edit distance with Wagner-Fischer algorithm
     // See https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm
