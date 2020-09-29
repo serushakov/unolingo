@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2882426e234b01d82a22cd394345c6de",
+    "identityHash": "846c49271934ac30201811567b48d64d",
     "entities": [
       {
         "tableName": "Word",
@@ -38,11 +38,11 @@
       },
       {
         "tableName": "WordCrossRef",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `translationId` INTEGER NOT NULL, PRIMARY KEY(`id`, `translationId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`parentId` INTEGER NOT NULL, `translationId` INTEGER NOT NULL, PRIMARY KEY(`parentId`, `translationId`))",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "parentId",
+            "columnName": "parentId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -55,7 +55,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id",
+            "parentId",
             "translationId"
           ],
           "autoGenerate": false
@@ -67,7 +67,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2882426e234b01d82a22cd394345c6de')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '846c49271934ac30201811567b48d64d')"
     ]
   }
 }

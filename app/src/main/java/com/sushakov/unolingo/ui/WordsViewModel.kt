@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.sushakov.unolingo.data.Repository
 import com.sushakov.unolingo.data.word.Word
+import com.sushakov.unolingo.data.word.WordWithTranslations
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -24,8 +25,6 @@ class WordsViewModel(private val repository: Repository) : ViewModel() {
 
     suspend fun getWords() = repository.getWords()
 
-    suspend fun addWord(word: Word) = repository.addWord(word)
-
     fun clear() {
         wordText.value = ""
         translationText.value = ""
@@ -37,8 +36,13 @@ class WordsViewModel(private val repository: Repository) : ViewModel() {
             text = wordText.value!!
         )
 
+        val word2 = Word(
+            lang = "FINNISH",
+            text = translationText.value!!
+        )
+
         viewModelScope.launch {
-            addWord(word);
+            repository.addTranslation(word, word2)
         }
         clear()
     }

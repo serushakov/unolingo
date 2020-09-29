@@ -7,7 +7,7 @@ import androidx.room.Relation
 
 @Entity
 data class Word(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @ColumnInfo val lang: String,
     @ColumnInfo val text: String
 ) {

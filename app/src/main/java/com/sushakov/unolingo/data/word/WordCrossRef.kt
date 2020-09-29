@@ -1,6 +1,9 @@
 package com.sushakov.unolingo.data.word
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 
-@Entity(primaryKeys = ["id", "translationId"])
-data class WordCrossRef(val id: Int, val translationId: Int)
+@Entity(primaryKeys = ["parentId", "translationId"])
+data class WordCrossRef(
+    val parentId: Long, val translationId: Long
+)

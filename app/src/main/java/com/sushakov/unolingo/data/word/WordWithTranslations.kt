@@ -9,7 +9,8 @@ data class WordWithTranslations(
     @Relation(
         parentColumn = "id",
         entityColumn = "id",
-        associateBy = Junction(WordCrossRef::class)
+        associateBy = Junction(WordCrossRef::class, parentColumn = "parentId", entityColumn = "translationId")
+
     )
     val translations: Set<Word>
 )

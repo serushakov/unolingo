@@ -1,18 +1,28 @@
 package com.sushakov.unolingo.data.word
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 
 @Dao
-interface WordDao {
+abstract class WordDao {
     @Transaction
     @Query("SELECT * FROM word")
-    fun getAll(): LiveData<List<WordWithTranslations>>
+    abstract fun getAll(): LiveData<List<WordWithTranslations>>
 
-    @Insert
-    suspend fun create(word: Word)
+    @Query("SELECT * FROM WordCrossRef")
+    abstract fun getRelations(): LiveData<List<WordCrossRef>>
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract suspend fun createWord(word: Word): Long
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract suspend fun createRelation(wordCrossRef: WordCrossRef)
+
+    @Transaction
+    open suspend fun addTranslation(parentWord: Word, translationWord: Word) {
+        val parentId = createWord(parentWord)
+        val translationId = createWord(parentWord)
+        createRelation(WordCrossRef(parentId, translationId))
+        createRelation(WordCrossRef(parentId = translationId, translationId = parentId))
+    }
 }
