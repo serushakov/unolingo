@@ -10,7 +10,21 @@ import kotlinx.coroutines.launch
 
 const val LANGUAGE = "ENGLISH"
 
-class WordsViewModel(private val repository: Repository) : ViewModel() {
+class WordsViewModel(private val repository: Repository, private val lifecycleOwner: LifecycleOwner) : ViewModel() {
+
+    init {
+        viewModelScope.launch {
+            getWords().observe(lifecycleOwner, Observer { words ->
+                if(words.isEmpty()) {
+                    viewModelScope.launch {
+                        repository.fetchWords()
+                    }
+                }
+                wordsListText.value = words.size.toString()
+            })
+        }
+    }
+
     val wordText: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
@@ -23,7 +37,7 @@ class WordsViewModel(private val repository: Repository) : ViewModel() {
         MutableLiveData<String>()
     }
 
-    suspend fun getWords() = repository.getWords()
+    fun getWords() = repository.getWords()
 
     fun clear() {
         wordText.value = ""
@@ -31,19 +45,23 @@ class WordsViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun submitWord() {
-        val word = Word(
-            lang = LANGUAGE,
-            text = wordText.value!!
-        )
-
-        val word2 = Word(
-            lang = "FINNISH",
-            text = translationText.value!!
-        )
 
         viewModelScope.launch {
-            repository.addTranslation(word, word2)
+            repository.fetchWords()
         }
-        clear()
+//        val word = Word(
+//            lang = LANGUAGE,
+//            text = wordText.value!!
+//        )
+//
+//        val word2 = Word(
+//            lang = "FINNISH",
+//            text = translationText.value!!
+//        )
+//
+//        viewModelScope.launch {
+//            repository.addTranslation(word, word2)
+//        }
+//        clear()
     }
 }

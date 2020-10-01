@@ -19,6 +19,13 @@ abstract class WordDao {
     abstract suspend fun createRelation(wordCrossRef: WordCrossRef)
 
     @Transaction
+    open suspend fun addTranslationPairs(pairs: List<Pair<Word, Word>>) {
+        for(pair in pairs) {
+            addTranslation(pair.first, pair.second)
+        }
+    }
+
+    @Transaction
     open suspend fun addTranslation(parentWord: Word, translationWord: Word) {
         val parentId = createWord(parentWord)
         val translationId = createWord(parentWord)

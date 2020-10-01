@@ -26,17 +26,11 @@ class WordsFragment : Fragment() {
         binding.setLifecycleOwner { this.lifecycle }
 
         val factory =
-            InjectorUtils.provideWordsViewModelFactory(requireContext())
+            InjectorUtils.provideWordsViewModelFactory(requireContext(), viewLifecycleOwner)
         val viewModel = ViewModelProvider(this, factory)
             .get(WordsViewModel::class.java)
 
         binding.wordViewModel = viewModel
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getWords().observe(viewLifecycleOwner, Observer { words ->
-                viewModel.wordsListText.value = words.toString()
-            })
-        }
 
         binding.go.setOnClickListener {
             viewModel.submitWord()
