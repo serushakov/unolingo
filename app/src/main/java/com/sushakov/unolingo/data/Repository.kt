@@ -22,12 +22,12 @@ class Repository private constructor(private val wordDao: WordDao) {
         wordDao.getWordById(wordId)
     }
 
-    suspend fun getRandomWordWithTranslations(): WordWithTranslations {
-        return wordDao.getRandomWordWithTranslations()
+    suspend fun getRandomWordWithTranslations(language: String): WordWithTranslations {
+        return wordDao.getRandomWordWithTranslations(language)
     }
 
-    suspend fun getRandomWord(ignoreList: List<Long> = emptyList()): Word {
-        return wordDao.getRandomWord(ignoreList)
+    suspend fun getRandomWord(ignoreList: List<Long> = emptyList(), language: String): Word {
+        return wordDao.getRandomWord(ignoreList, language)
     }
 
     suspend fun fetchWords() {

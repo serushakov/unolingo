@@ -4,10 +4,13 @@
   <color name="primaryLightColor">#ff857d</color>
   <color name="primaryDarkColor">#b11828</color>
   <color name="secondaryColor">#01a39d</color>
+  <color name="secondary60">#9901a39d</color>
   <color name="secondaryLightColor">#57d5ce</color>
   <color name="secondaryDarkColor">#00746f</color>
   <color name="primaryTextColor">#ffffff</color>
-  <color name="secondaryTextColor">#202125</color>
+  <color name="secondaryTextColor">#000000</color>
   <color name="surfaceColor">#fafafa</color>
   <color name="errorColor">#F08685</color>
+  <color name="black_mediumEmphasis">#99000000</color>
+  <color name="input_background">#e8e8e8</color>
 </resources>

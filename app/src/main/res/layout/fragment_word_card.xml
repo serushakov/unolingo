@@ -1,18 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.sushakov.unolingo.ui.learn.WordCard.WordCard">
+    tools:context="com.sushakov.unolingo.ui.learn.wordcard.WordCard">
 
     <data>
 
         <variable
             name="label"
             type="String" />
+
+        <variable
+            name="viewModel"
+            type="com.sushakov.unolingo.ui.learn.wordcard.WordCardViewModel" />
     </data>
 
-    <TextView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@{label}" />
+        android:layout_margin="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{label}"
+                android:textAlignment="center"
+                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/topStartButtonContainer"
+                    style="@style/UnoLingo.WordButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:checkable="true"
+                    app:layout_constraintBottom_toTopOf="@+id/bottomStartButtonContainer"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toStartOf="@+id/topEndButtonContainer"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/topEndButtonContainer"
+                    style="@style/UnoLingo.WordButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:checkable="true"
+                    app:layout_constraintBottom_toTopOf="@id/bottomEndButtonContainer"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/topStartButtonContainer"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bottomStartButtonContainer"
+                    style="@style/UnoLingo.WordButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:checkable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toStartOf="@id/bottomEndButtonContainer"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/topStartButtonContainer"
+                    app:layout_constraintVertical_bias="0.0" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bottomEndButtonContainer"
+                    style="@style/UnoLingo.WordButton"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:checkable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/bottomStartButtonContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/topEndButtonContainer" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </layout>

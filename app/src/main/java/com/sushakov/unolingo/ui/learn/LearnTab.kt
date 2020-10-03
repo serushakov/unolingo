@@ -10,9 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.sushakov.unolingo.R
+import com.sushakov.unolingo.data.Language
 import com.sushakov.unolingo.databinding.FragmentLearnTabBinding
 import com.sushakov.unolingo.ui.InjectorUtils
-import com.sushakov.unolingo.ui.learn.WordCard.WordCard
+import com.sushakov.unolingo.ui.learn.wordcard.WordCard
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,7 +42,6 @@ class LearnTab : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val binding: FragmentLearnTabBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_learn_tab, container, false)
 
@@ -50,13 +50,20 @@ class LearnTab : Fragment() {
         val viewModel = ViewModelProvider(this, factory)
             .get(LearnViewModel::class.java)
 
+        binding.fetchbutton.setOnClickListener {
+            lifecycleScope.launchWhenCreated {
+                viewModel.init()
+            }
+        }
+
         binding.createButton.setOnClickListener {
             lifecycleScope.launchWhenCreated {
                 val wordWithTranslations = viewModel.getWord()
 
                 val fragment = WordCard.newInstance(
                     wordWithTranslations,
-                    viewModel.getWordOptions(wordWithTranslations.word)
+                    viewModel.getWordOptions(wordWithTranslations.word),
+                    Language.SPANISH
                 )
 
                 Log.i("debug", wordWithTranslations.word.text)
