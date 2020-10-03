@@ -18,6 +18,18 @@ class Repository private constructor(private val wordDao: WordDao) {
         wordDao.addTranslation(word, translation)
     }
 
+    suspend fun getWordById(wordId: Long) {
+        wordDao.getWordById(wordId)
+    }
+
+    suspend fun getRandomWordWithTranslations(): WordWithTranslations {
+        return wordDao.getRandomWordWithTranslations()
+    }
+
+    suspend fun getRandomWord(ignoreList: List<Long> = emptyList()): Word {
+        return wordDao.getRandomWord(ignoreList)
+    }
+
     suspend fun fetchWords() {
         try {
             val wordLists = WordsApi.retrofitService.getWords()

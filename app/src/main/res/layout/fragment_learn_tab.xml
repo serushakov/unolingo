@@ -1,0 +1,56 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.sushakov.unolingo.ui.learn.LearnTab">
+
+    <data>
+
+        <variable
+            name="learnViewModel"
+            type="com.sushakov.unolingo.ui.learn.LearnViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="54dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/tab_learn"
+            android:textAppearance="@style/UnoLingo.Typography.H2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/cardContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="54dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/createButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/materialTextView"
+            />
+
+        <Button
+            android:id="@+id/createButton"
+            style="@style/UnoLingo.ButtonPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Create"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardContainer" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

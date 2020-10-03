@@ -20,7 +20,7 @@ abstract class WordDao {
 
     @Transaction
     open suspend fun addTranslationPairs(pairs: List<Pair<Word, Word>>) {
-        for(pair in pairs) {
+        for (pair in pairs) {
             addTranslation(pair.first, pair.second)
         }
     }
@@ -32,4 +32,13 @@ abstract class WordDao {
         createRelation(WordCrossRef(parentId, translationId))
         createRelation(WordCrossRef(parentId = translationId, translationId = parentId))
     }
+
+    @Query("SELECT * FROM word WHERE id=:wordId")
+    abstract suspend fun getWordById(wordId: Long): Word
+
+    @Query("SELECT * FROM word ORDER BY RANDOM() LIMIT 1")
+    abstract suspend fun getRandomWordWithTranslations(): WordWithTranslations
+
+    @Query("SELECT * FROM word WHERE id NOT IN (:ignoreList) ORDER BY RANDOM() LIMIT 1")
+    abstract suspend fun getRandomWord(ignoreList: List<Long>): Word
 }
