@@ -1,20 +1,21 @@
 package com.sushakov.unolingo.ui.words
 
 import android.graphics.Color
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sushakov.unolingo.R
 import com.sushakov.unolingo.databinding.FragmentWordsTabBinding
 import com.sushakov.unolingo.ui.InjectorUtils
-import com.sushakov.unolingo.ui.learn.LearnViewModel
+
 
 class WordsTab : Fragment() {
     companion object {
@@ -53,7 +54,18 @@ class WordsTab : Fragment() {
             }
         })
 
+        binding.addWordFab.setOnClickListener {
+            openAddWordBottomSheetDialog()
+        }
+
+
         return binding.root
+    }
+
+    fun openAddWordBottomSheetDialog() {
+        val dialog = AddWordModalSheetDialog()
+
+        dialog.show(childFragmentManager, AddWordModalSheetDialog.TAG)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

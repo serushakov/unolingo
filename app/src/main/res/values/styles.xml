@@ -46,10 +46,20 @@
 
         <item name="android:actionBarStyle">@style/UnoLingo.ActionBarStyle</item>
 
+<!--        <item name="bottomSheetDialogTheme">@style/UnoLingo.Widget.BottomSheetDialog</item>-->
+
+        <item name="buttonStyle">@style/UnoLingo.ButtonPrimary</item>
     </style>
 
     <style name="UnoLingo.ButtonPrimary" parent="Widget.MaterialComponents.Button">
         <item name="shapeAppearance">@style/ButtonPrimaryShape</item>
+    </style>
+
+    <style name="UnoLingo.ButtonSecondary.Borderless" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/secondaryColor</item>
+        <item name="shapeAppearance">@style/ButtonPrimaryShape</item>
+        <item name="rippleColor">@color/secondaryColor</item>
+        <item name="background">@color/transparent</item>
     </style>
 
     <style name="UnoLingo.ActionBarStyle" parent="Widget.MaterialComponents.ActionBar.Primary">
@@ -94,6 +104,20 @@
     <style name="ButtonPrimaryShape">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">100dp</item>
+    </style>
+
+<!--    <style name="UnoLingo.Widget.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">-->
+<!--        <item name="bottomSheetStyle">@style/UnoLingo.Widget.BottomSheetDialog.Shape</item>-->
+<!--    </style>-->
+
+<!--    <style name="UnoLingo.Widget.BottomSheetDialog.Shape" parent="Widget.MaterialComponents.BottomSheet.Modal">-->
+<!--        <item name="android:background">@drawable/rounded_dialog</item>-->
+<!--    </style>-->
+
+    <style name="UnoLingo.Typography.BottomSheetTitle" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>

@@ -50,6 +50,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_word_fab"
             style="@style/UnoLingo.Widget.Fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,6 +60,7 @@
             app:srcCompat="@drawable/ic_round_add_24">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

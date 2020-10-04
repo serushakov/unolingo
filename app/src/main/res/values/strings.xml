@@ -8,5 +8,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fab_content_desc">Add a new word</string>
+    <string name="add_word_bottom_sheet_title">Add a word</string>
+    <string name="add_word_word_label">Word</string>
+    <string name="add_word_translation_label">Translation</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_add">Add</string>
 
 </resources>
