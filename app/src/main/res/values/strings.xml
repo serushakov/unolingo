@@ -13,5 +13,6 @@
     <string name="add_word_translation_label">Translation</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_add">Add</string>
-
+    <string name="item_added_toast">Word added successfully</string>
+    <string name="item_removed_toast">Word removed successfully</string>
 </resources>

@@ -9,6 +9,6 @@ import com.sushakov.unolingo.ui.WordsViewModel
 class WordsTabViewModelFactory(private val repository: Repository, private val lifecycleOwner: LifecycleOwner): ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return WordsTabViewModel(repository) as T
+        return WordsTabViewModel(repository, lifecycleOwner) as T
     }
 }

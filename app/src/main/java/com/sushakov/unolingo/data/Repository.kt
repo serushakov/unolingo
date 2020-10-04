@@ -50,6 +50,10 @@ class Repository private constructor(private val wordDao: WordDao) {
     fun getWords(language: String) = wordDao.getAll(language)
     fun getRelations() = wordDao.getRelations()
 
+    suspend fun deleteWordWithTranslations(wordId: Long) {
+        wordDao.deleteWordWithTranslations(wordId)
+    }
+
     companion object {
         @Volatile
         private var instance: Repository? = null

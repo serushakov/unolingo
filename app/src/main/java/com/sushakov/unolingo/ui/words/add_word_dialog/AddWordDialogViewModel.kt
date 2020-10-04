@@ -9,6 +9,11 @@ import com.sushakov.unolingo.data.word.Word
 
 class AddWordDialogViewModel(val repository: Repository, val lifecycleOwner: LifecycleOwner) :
     ViewModel() {
+
+    val createdWordId: MutableLiveData<Long> by lazy {
+        MutableLiveData<Long>()
+    }
+
     val wordText: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
@@ -53,7 +58,9 @@ class AddWordDialogViewModel(val repository: Repository, val lifecycleOwner: Lif
             text = translationWordText
         )
 
-        repository.addTranslation(sourceWord, translationWord)
+        val wordId = repository.addTranslation(sourceWord, translationWord)
+
+        createdWordId.value = wordId
     }
 
     val handleWordAddClick = View.OnClickListener {

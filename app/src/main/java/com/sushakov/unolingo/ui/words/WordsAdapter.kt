@@ -33,4 +33,7 @@ class WordsAdapter : RecyclerView.Adapter<WordItemViewHolder>() {
 
     }
 
+    fun getItemAt(index: Int) = words[index]
+
+
 }

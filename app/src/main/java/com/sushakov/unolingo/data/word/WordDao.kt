@@ -43,10 +43,32 @@ abstract class WordDao {
     @Query("SELECT * FROM word WHERE id=:wordId")
     abstract suspend fun getWordById(wordId: Long): Word
 
+    @Query("SELECT * FROM word WHERE id=:wordId")
+    abstract suspend fun getWordWithTranslationsById(wordId: Long): WordWithTranslations
+
     @Transaction
     @Query("SELECT * FROM word WHERE lang=:language ORDER BY RANDOM() LIMIT 1")
     abstract suspend fun getRandomWordWithTranslations(language: String): WordWithTranslations
 
     @Query("SELECT * FROM word WHERE id NOT IN (:ignoreList) AND lang=:language ORDER BY RANDOM() LIMIT 1")
     abstract suspend fun getRandomWord(ignoreList: List<Long>, language: String): Word
+
+    @Transaction
+    open suspend fun deleteWordWithTranslations(wordId: Long) {
+        val wordWithTranslations = getWordWithTranslationsById(wordId)
+
+        deleteWord(wordId)
+
+        for(word in wordWithTranslations.translations) {
+            deleteWord(word.id)
+        }
+
+        deleteRelationsOfWord(wordId)
+    }
+
+    @Query("DELETE FROM word WHERE id=:wordId")
+    abstract suspend fun deleteWord(wordId: Long)
+
+    @Query("DELETE FROM WordCrossRef WHERE parentId=:wordId OR translationId=:wordId")
+    abstract fun deleteRelationsOfWord(wordId: Long)
 }
