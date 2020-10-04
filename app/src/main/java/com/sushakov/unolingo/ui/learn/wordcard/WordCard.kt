@@ -8,9 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.button.MaterialButtonToggleGroup
-import com.google.android.material.button.MaterialButtonToggleGroup.OnButtonCheckedListener
-import com.sushakov.unolingo.MainActivity
 import com.sushakov.unolingo.R
 import com.sushakov.unolingo.data.word.Word
 import com.sushakov.unolingo.data.word.WordWithTranslations
@@ -18,14 +15,22 @@ import com.sushakov.unolingo.databinding.FragmentWordCardBinding
 import java.util.ArrayList
 
 class WordCard : Fragment() {
-
     private lateinit var binding: FragmentWordCardBinding
+    private val toggleButtons = mutableListOf<MaterialButton>()
 
-    val toggleButtons = mutableListOf<MaterialButton>()
+    private lateinit var callback: OnCardSelectedListener
 
+    fun setOnCardSelectedListener(callback: OnCardSelectedListener) {
+        Log.d("set_listener", "on card select listener set")
+        this.callback = callback
+    }
 
     companion object {
-        fun newInstance(word: WordWithTranslations, options: ArrayList<Word>, language: String): WordCard {
+        fun newInstance(
+            word: WordWithTranslations,
+            options: ArrayList<Word>,
+            language: String
+        ): WordCard {
             val instance = WordCard()
 
             val args = Bundle().apply {
@@ -58,7 +63,6 @@ class WordCard : Fragment() {
         Log.i("debug", word.word.text ?: "NO WORD FOUND")
 
         binding.label = word.word.text
-        binding.viewModel = WordCardViewModel()
 
         this.binding = binding
 
@@ -67,20 +71,30 @@ class WordCard : Fragment() {
         toggleButtons.add(binding.bottomStartButtonContainer)
         toggleButtons.add(binding.bottomEndButtonContainer)
 
-        toggleButtons.random().text = word.translations.find { it.lang == language }?.text
+        val correctButton = toggleButtons.random()
+        val correctWord =word.translations.find { it.lang == language }
+        correctButton.text = correctWord?.text
+        correctButton.tag = correctWord;
 
         options?.forEach { option ->
-            toggleButtons.find {
+            val emptyButton = toggleButtons.find {
                 it.text.isEmpty()
-            }?.text = option.text
+            }
+            emptyButton?.text = option.text
+            emptyButton?.tag = option
         }
 
         toggleButtons.forEach {
-            it.addOnCheckedChangeListener { button, isChecked ->
-                if (isChecked) {
-                    clearChecks(ignore = button)
-                }
+
+            it.setOnClickListener { view ->
+                val button = view as MaterialButton
+                button.isCheckable = !button.isCheckable
+                button.isChecked = button.isCheckable
+
+                callback.onCardSelected(if(button.isChecked) button.tag as Word else null)
+                clearChecks(button)
             }
+
 
 
         }
@@ -88,13 +102,17 @@ class WordCard : Fragment() {
         return binding.root
     }
 
+    interface OnCardSelectedListener {
+        fun onCardSelected(word: Word?)
+    }
 
     private fun clearChecks(ignore: MaterialButton) {
         Thread(Runnable {
             activity?.runOnUiThread {
                 toggleButtons.forEach {
-                    if (it != ignore) {
+                    if (it != ignore && it.isChecked) {
                         it.isChecked = false
+                        it.isCheckable = false
                     }
                 }
             }

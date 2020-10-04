@@ -67,5 +67,19 @@
             app:layout_constraintStart_toEndOf="@+id/createButton"
             app:layout_constraintTop_toBottomOf="@id/cardContainer" />
 
+        <Button
+            android:id="@+id/checkButton"
+            style="@style/UnoLingo.ButtonPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:enabled="@{learnViewModel.selectedWord != null}"
+            android:text="check"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/fetchbutton"
+            app:layout_constraintStart_toEndOf="@+id/createButton"
+            app:layout_constraintTop_toBottomOf="@id/cardContainer"
+            app:layout_constraintVertical_bias="0.514" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

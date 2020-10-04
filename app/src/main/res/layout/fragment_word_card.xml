@@ -5,14 +5,9 @@
     tools:context="com.sushakov.unolingo.ui.learn.wordcard.WordCard">
 
     <data>
-
         <variable
             name="label"
             type="String" />
-
-        <variable
-            name="viewModel"
-            type="com.sushakov.unolingo.ui.learn.wordcard.WordCardViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -45,7 +40,6 @@
                     style="@style/UnoLingo.WordButton"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:checkable="true"
                     app:layout_constraintBottom_toTopOf="@+id/bottomStartButtonContainer"
                     app:layout_constraintDimensionRatio="1"
                     app:layout_constraintEnd_toStartOf="@+id/topEndButtonContainer"
@@ -58,7 +52,6 @@
                     style="@style/UnoLingo.WordButton"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:checkable="true"
                     app:layout_constraintBottom_toTopOf="@id/bottomEndButtonContainer"
                     app:layout_constraintDimensionRatio="1"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +64,6 @@
                     style="@style/UnoLingo.WordButton"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:checkable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1"
                     app:layout_constraintEnd_toStartOf="@id/bottomEndButtonContainer"
@@ -86,7 +78,6 @@
                     style="@style/UnoLingo.WordButton"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:checkable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1"
                     app:layout_constraintEnd_toEndOf="parent"
