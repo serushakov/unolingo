@@ -87,7 +87,9 @@
     </style>
 
 
-
+    <style name="UnoLingo.Widget.Fab" parent="@style/Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:backgroundTint">@color/secondaryColor</item>
+    </style>
 
     <style name="ButtonPrimaryShape">
         <item name="cornerFamily">rounded</item>
