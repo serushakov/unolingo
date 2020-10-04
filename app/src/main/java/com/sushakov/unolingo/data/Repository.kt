@@ -14,8 +14,8 @@ class Repository private constructor(private val wordDao: WordDao) {
         wordDao.createWord(word)
     }
 
-    suspend fun addTranslation(word: Word, translation: Word) {
-        wordDao.addTranslation(word, translation)
+    suspend fun addTranslation(word: Word, translation: Word): Long {
+        return wordDao.addTranslation(word, translation)
     }
 
     suspend fun getWordById(wordId: Long) {

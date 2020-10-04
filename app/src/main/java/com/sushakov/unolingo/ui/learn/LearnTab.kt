@@ -67,8 +67,10 @@ class LearnTab : Fragment(), WordCard.OnCardSelectedListener {
         return binding.root
     }
 
-    private val currentWordChangeObserver = Observer<WordWithTranslations> { nextWord ->
-        showNextWordCard(nextWord)
+    private val currentWordChangeObserver = Observer<WordWithTranslations?> { nextWord ->
+        if (nextWord != null) {
+            showNextWordCard(nextWord)
+        }
     }
 
     fun showNextWordCard(wordWithTranslations: WordWithTranslations) {

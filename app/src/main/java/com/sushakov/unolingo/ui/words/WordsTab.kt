@@ -2,6 +2,7 @@ package com.sushakov.unolingo.ui.words
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sushakov.unolingo.R
 import com.sushakov.unolingo.databinding.FragmentWordsTabBinding
 import com.sushakov.unolingo.ui.InjectorUtils
+import com.sushakov.unolingo.ui.words.add_word_dialog.AddWordModalSheetDialog
 
 
 class WordsTab : Fragment() {
@@ -50,6 +51,7 @@ class WordsTab : Fragment() {
 
         viewModel.words.observe(viewLifecycleOwner, Observer {
             it?.let {
+                Log.d("words changed", "${it.size}")
                 adapter.words = it
             }
         })
@@ -63,7 +65,8 @@ class WordsTab : Fragment() {
     }
 
     fun openAddWordBottomSheetDialog() {
-        val dialog = AddWordModalSheetDialog()
+        val dialog =
+            AddWordModalSheetDialog()
 
         dialog.show(childFragmentManager, AddWordModalSheetDialog.TAG)
     }

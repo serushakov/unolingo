@@ -31,11 +31,13 @@ abstract class WordDao {
     }
 
     @Transaction
-    open suspend fun addTranslation(parentWord: Word, translationWord: Word) {
+    open suspend fun addTranslation(parentWord: Word, translationWord: Word): Long {
         val parentId = createWord(parentWord)
         val translationId = createWord(translationWord)
         createRelation(WordCrossRef(parentId, translationId))
         createRelation(WordCrossRef(parentId = translationId, translationId = parentId))
+
+        return parentId
     }
 
     @Query("SELECT * FROM word WHERE id=:wordId")
