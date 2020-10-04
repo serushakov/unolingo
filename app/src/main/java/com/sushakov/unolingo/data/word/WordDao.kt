@@ -7,8 +7,12 @@ import com.sushakov.unolingo.data.Language
 @Dao
 abstract class WordDao {
     @Transaction
-    @Query("SELECT * FROM word")
+    @Query("SELECT * FROM word ORDER BY text")
     abstract fun getAll(): LiveData<List<WordWithTranslations>>
+
+    @Transaction
+    @Query("SELECT * FROM word WHERE lang=:language ORDER BY text")
+    abstract fun getAll(language: String): LiveData<List<WordWithTranslations>>
 
     @Query("SELECT * FROM WordCrossRef")
     abstract fun getRelations(): LiveData<List<WordCrossRef>>

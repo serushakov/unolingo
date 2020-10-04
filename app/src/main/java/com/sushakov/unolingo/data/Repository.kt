@@ -47,6 +47,7 @@ class Repository private constructor(private val wordDao: WordDao) {
     }
 
     fun getWords() = wordDao.getAll()
+    fun getWords(language: String) = wordDao.getAll(language)
     fun getRelations() = wordDao.getRelations()
 
     companion object {

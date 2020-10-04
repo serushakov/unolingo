@@ -6,12 +6,14 @@ import androidx.room.Room
 import com.sushakov.unolingo.data.Database
 import com.sushakov.unolingo.data.Repository
 import com.sushakov.unolingo.ui.learn.LearnViewModelFactory
+import com.sushakov.unolingo.ui.words.WordsTab
+import com.sushakov.unolingo.ui.words.WordsTabViewModelFactory
 
 object InjectorUtils {
-    fun provideWordsViewModelFactory(
+    fun provideWordsTabViewModelFactory(
         context: Context,
         lifecycleOwner: LifecycleOwner
-    ): WordsViewModelFactory {
+    ): WordsTabViewModelFactory {
 
         val quoteRepository = Repository.getInstance(
             Room.databaseBuilder(
@@ -19,7 +21,7 @@ object InjectorUtils {
                 Database::class.java, "words"
             ).build().wordDao()
         )
-        return WordsViewModelFactory(quoteRepository, lifecycleOwner)
+        return WordsTabViewModelFactory(quoteRepository, lifecycleOwner)
     }
 
     fun provideLearnViewModelFactory(
