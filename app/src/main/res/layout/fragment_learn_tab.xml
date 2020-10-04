@@ -35,7 +35,6 @@
             android:layout_marginTop="54dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/createButton"
-            app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
