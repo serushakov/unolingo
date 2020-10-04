@@ -1,11 +1,13 @@
 package com.sushakov.unolingo.ui.words
 
+import android.graphics.Color
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -36,6 +38,11 @@ class WordsTab : Fragment() {
             .get(WordsTabViewModel::class.java)
 
         val adapter = WordsAdapter()
+
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+
+        binding.collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
+        binding.collapsingToolbarLayout.setExpandedTitleColor(Color.BLACK);
 
 
         binding.recyclerView.adapter = adapter

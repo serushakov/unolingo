@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private fun openInitialTab() {
         // This will trigger onItemSelectedListener, which will initialize the tab
         binding.bottomNavigation.selectedItemId = R.id.tab_words
+        
     }
 
     private fun setBottomNavigationItemSelectedListener() {

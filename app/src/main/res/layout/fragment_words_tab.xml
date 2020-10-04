@@ -4,37 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.sushakov.unolingo.ui.words.WordsTab">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="54dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="54dp"
-            android:fontFamily="@font/roboto_light"
-            android:text="@string/tab_words"
-            android:textAppearance="@style/UnoLingo.Typography.TabTitle"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                app:contentScrim="@color/primaryColor"
+                app:expandedTitleMarginBottom="54dp"
+                app:expandedTitleMarginStart="16dp"
+                app:expandedTitleMarginTop="54dp"
+                app:expandedTitleTextAppearance="@style/UnoLingo.Typography.TabTitle"
+                app:layout_collapseMode="parallax"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp"
+                    android:scaleType="centerCrop" />
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:title="@string/tab_words" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+            <!--            <com.google.android.material.textview.MaterialTextView-->
+            <!--                android:id="@+id/materialTextView"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="16dp"-->
+            <!--                android:layout_marginTop="54dp"-->
+            <!--                android:layout_marginEnd="16dp"-->
+            <!--                android:layout_marginBottom="54dp"-->
+            <!--                android:fontFamily="@font/roboto_light"-->
+            <!--                android:text="@string/tab_words"-->
+            <!--                android:textAppearance="@style/UnoLingo.Typography.TabTitle"-->
+            <!--                app:layout_constraintBottom_toTopOf="@+id/recyclerView"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
