@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.sushakov.unolingo.databinding.ActivityMainBinding
 import com.sushakov.unolingo.ui.learn.LearnTab
+import com.sushakov.unolingo.ui.me.MeTab
 import com.sushakov.unolingo.ui.words.WordsTab
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
             val fragment = when (it.itemId) {
                 R.id.tab_learn -> LearnTab.newInstance()
                 R.id.tab_words -> WordsTab.newInstance()
+                R.id.tab_me -> MeTab.newInstance()
                 else -> null
             }
 
