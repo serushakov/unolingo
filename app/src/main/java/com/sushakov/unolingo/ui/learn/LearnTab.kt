@@ -40,14 +40,8 @@ class LearnTab : Fragment(), WordCard.OnCardSelectedListener {
         binding.lifecycleOwner = viewLifecycleOwner
 
 
-        binding.fetchbutton.setOnClickListener {
-            lifecycleScope.launchWhenCreated {
-                viewModel.init()
-            }
-        }
-
         lifecycleScope.launchWhenCreated {
-            viewModel.selectWord()
+//            viewModel.selectWord()
         }
 
         binding.checkButton.setOnClickListener {
