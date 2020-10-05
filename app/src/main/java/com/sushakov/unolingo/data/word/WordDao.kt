@@ -48,7 +48,7 @@ abstract class WordDao {
 
     @Transaction
     @Query("SELECT * FROM word WHERE lang=:language ORDER BY RANDOM() LIMIT 1")
-    abstract suspend fun getRandomWordWithTranslations(language: String): WordWithTranslations
+    abstract suspend fun getRandomWordWithTranslations(language: String): WordWithTranslations?
 
     @Query("SELECT * FROM word WHERE id NOT IN (:ignoreList) AND lang=:language ORDER BY RANDOM() LIMIT 1")
     abstract suspend fun getRandomWord(ignoreList: List<Long>, language: String): Word

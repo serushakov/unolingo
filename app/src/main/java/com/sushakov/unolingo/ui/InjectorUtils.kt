@@ -15,29 +15,32 @@ object InjectorUtils {
         context: Context,
         lifecycleOwner: LifecycleOwner
     ): WordsTabViewModelFactory {
+        val database = Room.databaseBuilder(
+            context,
+            Database::class.java, "words"
+        ).build()
 
-        val quoteRepository = Repository.getInstance(
-            Room.databaseBuilder(
-                context,
-                Database::class.java, "words"
-            ).build().wordDao()
+        val repository = Repository.getInstance(
+            database.wordDao(),
+            database.recordDao()
         )
-        return WordsTabViewModelFactory(quoteRepository, lifecycleOwner)
+        return WordsTabViewModelFactory(repository, lifecycleOwner)
     }
 
     fun provideLearnViewModelFactory(
         context: Context,
         lifecycleOwner: LifecycleOwner
     ): LearnViewModelFactory {
-
-        val quoteRepository = Repository.getInstance(
-            Room.databaseBuilder(
-                context,
-                Database::class.java, "words"
-            ).build().wordDao()
+        val database = Room.databaseBuilder(
+            context,
+            Database::class.java, "words"
+        ).build()
+        val repository = Repository.getInstance(
+            database.wordDao(),
+            database.recordDao()
         )
         return LearnViewModelFactory(
-            quoteRepository,
+            repository,
             lifecycleOwner
         )
     }
@@ -46,15 +49,17 @@ object InjectorUtils {
         context: Context,
         lifecycleOwner: LifecycleOwner
     ): AddWordDialogViewModelFactory {
+        val database = Room.databaseBuilder(
+            context,
+            Database::class.java, "words"
+        ).build()
 
-        val quoteRepository = Repository.getInstance(
-            Room.databaseBuilder(
-                context,
-                Database::class.java, "words"
-            ).build().wordDao()
+        val repository = Repository.getInstance(
+            database.wordDao(),
+            database.recordDao()
         )
         return AddWordDialogViewModelFactory(
-            quoteRepository,
+            repository,
             lifecycleOwner
         )
     }

@@ -41,7 +41,7 @@ class LearnTab : Fragment(), WordCard.OnCardSelectedListener {
 
 
         lifecycleScope.launchWhenCreated {
-//            viewModel.selectWord()
+            viewModel.selectWord()
         }
 
         binding.checkButton.setOnClickListener {
@@ -67,7 +67,7 @@ class LearnTab : Fragment(), WordCard.OnCardSelectedListener {
         }
     }
 
-    fun showNextWordCard(wordWithTranslations: WordWithTranslations) {
+    private fun showNextWordCard(wordWithTranslations: WordWithTranslations) {
         lifecycleScope.launchWhenCreated {
 
             val fragment = WordCard.newInstance(

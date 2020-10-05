@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.sushakov.unolingo.data.Language
 import com.sushakov.unolingo.data.Repository
+import com.sushakov.unolingo.data.record.Record
 import com.sushakov.unolingo.data.word.Word
 import com.sushakov.unolingo.data.word.WordWithTranslations
 
@@ -27,7 +28,7 @@ class LearnViewModel(
     }
 
 
-    suspend fun selectWord(): WordWithTranslations {
+    suspend fun selectWord(): WordWithTranslations? {
         val selectedWord = repository.getRandomWordWithTranslations(Language.ENGLISH)
         currentWord.value = selectedWord
 
@@ -36,22 +37,30 @@ class LearnViewModel(
 
 
     suspend fun checkWord(): Boolean {
-
         val correctWord = currentWord.value?.translations?.find { it.lang == Language.SPANISH }
         val checkedWord = selectedWord.value
-        Log.d(
-            "comparing words",
-            "correct: ${correctWord?.text ?: "not found"} selected ${checkedWord?.text}"
-        )
 
-        require(correctWord != null && checkedWord != null) { "Both words should not be null"}
+        require(correctWord != null && checkedWord != null) { "Both words should not be null" }
 
         selectedWord.value = null;
 
+
+        val isCorrect = correctWord.text.contentEquals(checkedWord.text)
+
+        val wordId = currentWord.value?.word?.id
+
+        if (wordId != null) {
+            saveResult(wordId, isCorrect)
+        }
+
         selectWord()
 
+        return isCorrect
+    }
 
-        return correctWord.text.contentEquals(checkedWord.text)
+    private suspend fun saveResult(wordId: Long, result: Boolean) {
+        val record = Record(wordId = wordId, result = result)
+        repository.addRecord(record)
     }
 
     suspend fun getWordOptions(ignore: Word): ArrayList<Word> {
@@ -66,6 +75,7 @@ class LearnViewModel(
 
         return options
     }
+
 
     suspend fun init() {
         repository.fetchWords()

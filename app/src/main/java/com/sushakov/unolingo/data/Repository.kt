@@ -1,28 +1,22 @@
 package com.sushakov.unolingo.data
 
 import android.util.Log
+import com.sushakov.unolingo.data.record.Record
+import com.sushakov.unolingo.data.record.RecordDao
 import com.sushakov.unolingo.data.word.Word
 import com.sushakov.unolingo.data.word.WordDao
 import com.sushakov.unolingo.data.word.WordWithTranslations
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.lang.Exception
 
-class Repository private constructor(private val wordDao: WordDao) {
-    suspend fun addWord(word: Word) {
-        wordDao.createWord(word)
-    }
-
+class Repository private constructor(
+    private val wordDao: WordDao,
+    private val recordDao: RecordDao
+) {
     suspend fun addTranslation(word: Word, translation: Word): Long {
         return wordDao.addTranslation(word, translation)
     }
 
-    suspend fun getWordById(wordId: Long) {
-        wordDao.getWordById(wordId)
-    }
-
-    suspend fun getRandomWordWithTranslations(language: String): WordWithTranslations {
+    suspend fun getRandomWordWithTranslations(language: String): WordWithTranslations? {
         return wordDao.getRandomWordWithTranslations(language)
     }
 
@@ -48,19 +42,22 @@ class Repository private constructor(private val wordDao: WordDao) {
 
     fun getWords() = wordDao.getAll()
     fun getWords(language: String) = wordDao.getAll(language)
-    fun getRelations() = wordDao.getRelations()
 
     suspend fun deleteWordWithTranslations(wordId: Long) {
         wordDao.deleteWordWithTranslations(wordId)
+    }
+
+    suspend fun addRecord(record: Record) {
+        recordDao.addRecord(record)
     }
 
     companion object {
         @Volatile
         private var instance: Repository? = null
 
-        fun getInstance(wordDao: WordDao) =
+        fun getInstance(wordDao: WordDao, recordDao: RecordDao) =
             instance ?: synchronized(this) {
-                instance ?: Repository(wordDao).also { instance = it }
+                instance ?: Repository(wordDao, recordDao).also { instance = it }
             }
     }
 }
