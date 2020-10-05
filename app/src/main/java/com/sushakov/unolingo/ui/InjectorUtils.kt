@@ -6,41 +6,39 @@ import androidx.room.Room
 import com.sushakov.unolingo.data.Database
 import com.sushakov.unolingo.data.Repository
 import com.sushakov.unolingo.ui.learn.LearnViewModelFactory
+import com.sushakov.unolingo.ui.learn.MeTabViewModelFactory
 import com.sushakov.unolingo.ui.words.WordsTab
 import com.sushakov.unolingo.ui.words.WordsTabViewModelFactory
 import com.sushakov.unolingo.ui.words.add_word_dialog.AddWordDialogViewModelFactory
 
 object InjectorUtils {
-    fun provideWordsTabViewModelFactory(
-        context: Context,
-        lifecycleOwner: LifecycleOwner
-    ): WordsTabViewModelFactory {
+    private fun getRepository(context: Context): Repository {
         val database = Room.databaseBuilder(
             context,
             Database::class.java, "words"
         ).build()
 
-        val repository = Repository.getInstance(
+        return Repository.getInstance(
             database.wordDao(),
             database.recordDao()
         )
-        return WordsTabViewModelFactory(repository, lifecycleOwner)
+    }
+
+    fun provideWordsTabViewModelFactory(
+        context: Context,
+        lifecycleOwner: LifecycleOwner
+    ): WordsTabViewModelFactory {
+
+        return WordsTabViewModelFactory(getRepository(context), lifecycleOwner)
     }
 
     fun provideLearnViewModelFactory(
         context: Context,
         lifecycleOwner: LifecycleOwner
     ): LearnViewModelFactory {
-        val database = Room.databaseBuilder(
-            context,
-            Database::class.java, "words"
-        ).build()
-        val repository = Repository.getInstance(
-            database.wordDao(),
-            database.recordDao()
-        )
+
         return LearnViewModelFactory(
-            repository,
+            getRepository(context),
             lifecycleOwner
         )
     }
@@ -49,17 +47,19 @@ object InjectorUtils {
         context: Context,
         lifecycleOwner: LifecycleOwner
     ): AddWordDialogViewModelFactory {
-        val database = Room.databaseBuilder(
-            context,
-            Database::class.java, "words"
-        ).build()
 
-        val repository = Repository.getInstance(
-            database.wordDao(),
-            database.recordDao()
-        )
         return AddWordDialogViewModelFactory(
-            repository,
+            getRepository(context),
+            lifecycleOwner
+        )
+    }
+
+    fun provideMeTabViewModelFactory(
+        context: Context,
+        lifecycleOwner: LifecycleOwner
+    ): MeTabViewModelFactory {
+        return MeTabViewModelFactory(
+            getRepository(context),
             lifecycleOwner
         )
     }

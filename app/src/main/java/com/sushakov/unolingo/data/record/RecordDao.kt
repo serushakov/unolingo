@@ -1,5 +1,6 @@
 package com.sushakov.unolingo.data.record
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -11,5 +12,8 @@ abstract class RecordDao {
     @Transaction
     @Query("SELECT * FROM record WHERE id=:id")
     abstract suspend fun getRecordWithWord(id: Long): RecordWithWord
+
+    @Query("SELECT * FROM record ORDER BY id DESC LIMIT :amount")
+    abstract fun getLastResults(amount: Int = 100): LiveData<List<Record>>
 
 }

@@ -5,8 +5,8 @@
     <string name="tab_learn">Learn</string>
     <string name="tab_words">Words</string>
     <string name="tab_me">Me</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Word tab strings-->
     <string name="fab_content_desc">Add a new word</string>
     <string name="add_word_bottom_sheet_title">Add a word</string>
     <string name="add_word_word_label">Word</string>
@@ -15,4 +15,21 @@
     <string name="button_add">Add</string>
     <string name="item_added_toast">Word added successfully</string>
     <string name="item_removed_toast">Word removed successfully</string>
+
+    <!--Me tab strings-->
+    <string name="statistics_section_title">Statistics</string>
+
+
+    <string name="statistics_item_streak">Current streak</string>
+    <string name="statistics_item_streak_emoji">🔥</string>
+
+    <string name="statistics_item_correct">Correct answers</string>
+    <string name="statistics_item_correct_emoji">📈</string>
+
+    <string name="statistics_item_level">Level</string>
+    <string name="statistics_item_level_emoji">🔢</string>
+
+    <string name="statistics_item_xp">XP</string>
+    <string name="statistics_item_xp_emoji">⚔️</string>
+
 </resources>

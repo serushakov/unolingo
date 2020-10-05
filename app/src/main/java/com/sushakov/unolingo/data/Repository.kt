@@ -1,6 +1,9 @@
 package com.sushakov.unolingo.data
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.sushakov.unolingo.data.record.Record
 import com.sushakov.unolingo.data.record.RecordDao
 import com.sushakov.unolingo.data.word.Word
@@ -49,6 +52,19 @@ class Repository private constructor(
 
     suspend fun addRecord(record: Record) {
         recordDao.addRecord(record)
+    }
+
+    fun getLastResultsPercentage(): LiveData<Double?> {
+        val results = recordDao.getLastResults()
+
+        return Transformations.distinctUntilChanged(
+            Transformations.map(results) {
+                Log.d("records", it.toString())
+                val correctItems = it.filter { item -> item.result }
+                val ratio = (correctItems.size.toDouble() / it.size)
+                ratio * 100.0
+            }
+        )
     }
 
     companion object {

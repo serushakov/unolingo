@@ -1,7 +1,11 @@
 package com.sushakov.unolingo.ui.me
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
+import com.sushakov.unolingo.data.Repository
 
-class MeTabViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class MeTabViewModel(private val repository: Repository, lifecycleOwner: LifecycleOwner) :
+    ViewModel() {
+
+    suspend fun correctPercentage() = repository.getLastResultsPercentage()
 }
