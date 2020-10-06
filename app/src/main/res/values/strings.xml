@@ -18,7 +18,7 @@
 
     <!--Me tab strings-->
     <string name="statistics_section_title">Statistics</string>
-
+    <string name="words_to_improve_section_title">Words to improve</string>
 
     <string name="statistics_item_streak">Current streak</string>
     <string name="statistics_item_streak_emoji">🔥</string>

@@ -3,6 +3,7 @@ package com.sushakov.unolingo.data.record
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+
 @Dao
 abstract class RecordDao {
 
@@ -18,5 +19,8 @@ abstract class RecordDao {
 
     @Query("SELECT COUNT(*) FROM record WHERE result")
     abstract fun getCorrectAnswerCount(): LiveData<Int>
+
+    @Query("SELECT wordId,COUNT(result) as count  FROM record WHERE result=0 GROUP BY wordId ORDER BY count DESC LIMIT :amount")
+    abstract suspend fun getWorstWords(amount: Int = 5): List<WordCount>
 
 }

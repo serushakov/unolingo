@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.sushakov.unolingo.data.record.Record
 import com.sushakov.unolingo.data.record.RecordDao
+import com.sushakov.unolingo.data.record.RecordWithWord
+import com.sushakov.unolingo.data.record.WordCount
 import com.sushakov.unolingo.data.word.Word
 import com.sushakov.unolingo.data.word.WordDao
 import com.sushakov.unolingo.data.word.WordWithTranslations
@@ -139,7 +141,7 @@ class Repository private constructor(
             Transformations.map(xp) {
                 var level = 1
                 while (true) {
-                    if (levelToXp(level + 1).toInt() > it ) break
+                    if (levelToXp(level + 1).toInt() > it) break
                     level++
                 }
 
@@ -147,6 +149,12 @@ class Repository private constructor(
             }
         )
     }
+
+    suspend fun getWordsToImprove() =
+        recordDao.getWorstWords().map {
+            wordDao.getWordById(it.wordId) to it.count
+        }
+
 
     companion object {
         @Volatile

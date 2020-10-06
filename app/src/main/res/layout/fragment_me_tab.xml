@@ -1,7 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.sushakov.unolingo.ui.learn.LearnTab">
+    tools:context="com.sushakov.unolingo.ui.learn.MeTab">
 
     <data>
 
@@ -10,99 +10,129 @@
             type="com.sushakov.unolingo.ui.learn.LearnViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/materialTextView"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="54dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="@font/roboto_light"
-                android:text="@string/tab_me"
-                android:textAppearance="@style/UnoLingo.Typography.TabTitle"
-                app:layout_constraintBottom_toTopOf="@+id/headerStatistics"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="#ffffff"
+                app:contentScrim="@color/primaryColor"
+                app:expandedTitleMarginBottom="54dp"
+                app:expandedTitleMarginStart="16dp"
+                app:expandedTitleMarginTop="54dp"
+                app:expandedTitleTextAppearance="@style/UnoLingo.Typography.TabTitle"
+                app:layout_collapseMode="parallax"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <TextView
-                android:id="@+id/headerStatistics"
-                style="@style/UnoLingo.Typography.SectionHeader"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="54dp"
-                android:background="@drawable/word_list_item_background"
-                android:text="@string/statistics_section_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="172dp"
+                    android:scaleType="centerCrop" />
 
-            <androidx.gridlayout.widget.GridLayout
-                android:id="@+id/gridLayout"
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:title="@string/tab_me" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                app:columnCount="2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/headerStatistics">
+                android:orientation="vertical">
 
-                <include
-                    android:id="@+id/streakCard"
-                    layout="@layout/statistics_item"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/headerStatistics"
+                    style="@style/UnoLingo.Typography.SectionHeader"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    app:layout_columnWeight="1" />
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/border_bottom"
+                    android:text="@string/statistics_section_title" />
 
-                <include
-                    android:id="@+id/correctCard"
-                    layout="@layout/statistics_item"
-                    android:layout_width="0dp"
+                <androidx.gridlayout.widget.GridLayout
+                    android:id="@+id/gridLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    app:layout_columnWeight="1"
-                    app:layout_gravity="fill_horizontal" />
+                    android:layout_margin="12dp"
+                    app:columnCount="2">
 
-                <include
-                    android:id="@+id/levelCard"
-                    layout="@layout/statistics_item"
-                    android:layout_width="0dp"
+                    <include
+                        android:id="@+id/streakCard"
+                        layout="@layout/statistics_item"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:layout_columnWeight="1" />
+
+                    <include
+                        android:id="@+id/correctCard"
+                        layout="@layout/statistics_item"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:layout_columnWeight="1"
+                        app:layout_gravity="fill_horizontal" />
+
+                    <include
+                        android:id="@+id/levelCard"
+                        layout="@layout/statistics_item"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:layout_columnWeight="1" />
+
+                    <include
+                        android:id="@+id/xpCard"
+                        layout="@layout/statistics_item"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:layout_columnWeight="1" />
+
+                </androidx.gridlayout.widget.GridLayout>
+
+                <TextView
+                    android:id="@+id/xpToNextLevel"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    app:layout_columnWeight="1" />
+                    android:layout_marginStart="16dp"
+                    tools:text="xp to next level" />
 
-                <include
-                    android:id="@+id/xpCard"
-                    layout="@layout/statistics_item"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/headerWordsToImprove"
+                    style="@style/UnoLingo.Typography.SectionHeader"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    app:layout_columnWeight="1" />
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/border_bottom"
+                    android:text="@string/words_to_improve_section_title" />
 
-            </androidx.gridlayout.widget.GridLayout>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/wordsToImprove"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
 
-            <TextView
-                android:id="@+id/xpToNextLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gridLayout"
-                tools:text="xp to next level" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+        </androidx.core.widget.NestedScrollView>
 
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -13,4 +13,5 @@ class MeTabViewModel(private val repository: Repository, lifecycleOwner: Lifecyc
     fun getXp() = repository.getXP()
     fun getLevel() = repository.getLevel()
     fun getXpToNextLevel() = repository.getXpToNextLevel()
+    suspend fun getWordsToImprove() = repository.getWordsToImprove()
 }

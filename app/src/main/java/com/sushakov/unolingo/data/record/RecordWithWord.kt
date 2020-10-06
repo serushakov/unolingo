@@ -10,5 +10,6 @@ data class RecordWithWord(
         parentColumn = "wordId",
         entityColumn = "id"
     )
-    val word: Word
+    val word: Word,
+    val count: Int?
 )
