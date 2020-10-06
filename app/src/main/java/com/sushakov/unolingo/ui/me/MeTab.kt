@@ -70,17 +70,20 @@ class MeTab : Fragment() {
 
                 val wordsToImprove = viewModel.getWordsToImprove()
 
-                if (wordsToImprove.size == 0) {
-                    binding.headerWordsToImprove.visibility = View.GONE
-                }
+                activity?.runOnUiThread {
+                    if (wordsToImprove.size == 0) {
+                        binding.headerWordsToImprove.visibility = View.GONE
+                    }
 
-                binding.wordsToImprove.apply {
-                    wordsToImprove.forEach {
-                        val view = layoutInflater.inflate(R.layout.word_list_item, null) as TextView
-                        view.width = this.width
-                        view.text = it.first.text
+                    binding.wordsToImprove.apply {
+                        wordsToImprove.forEach {
+                            val view =
+                                layoutInflater.inflate(R.layout.word_list_item, null) as TextView
+                            view.width = this.width
+                            view.text = it.first.text
 
-                        addView(view)
+                            addView(view)
+                        }
                     }
                 }
             }
