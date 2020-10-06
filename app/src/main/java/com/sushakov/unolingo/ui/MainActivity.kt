@@ -18,6 +18,7 @@ import com.sushakov.unolingo.ui.me.MeTab
 import com.sushakov.unolingo.ui.me.MeTabViewModel
 import com.sushakov.unolingo.ui.onboarding.OnboardingFragment
 import com.sushakov.unolingo.ui.words.WordsTab
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(), OnboardingFragment.Callback {
     private lateinit var binding: ActivityMainBinding
@@ -67,11 +68,16 @@ class MainActivity : AppCompatActivity(), OnboardingFragment.Callback {
     }
 
     private fun loadWords() {
+
         lifecycleScope.launchWhenCreated {
             val result = viewModel.loadWords()
 
-            if(!result) {
-                Toast.makeText(applicationContext, "Failed to fetch words! Please ensure network connectivity", Toast.LENGTH_LONG)
+            if (!result) {
+                Toast.makeText(
+                    applicationContext,
+                    "Failed to fetch words! Please ensure network connectivity",
+                    Toast.LENGTH_LONG
+                )
             }
         }
     }

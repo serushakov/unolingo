@@ -1,11 +1,12 @@
 package com.sushakov.unolingo.ui.me
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,7 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import com.sushakov.unolingo.R
 import com.sushakov.unolingo.databinding.FragmentMeTabBinding
 import com.sushakov.unolingo.InjectorUtils
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MeTab : Fragment() {
 
@@ -33,8 +35,16 @@ class MeTab : Fragment() {
 
         initializeCards()
         initializeListOfWords()
+        initializeCollapsingToolbar()
 
         return binding.root
+    }
+
+    private fun initializeCollapsingToolbar() {
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+
+        binding.collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
+        binding.collapsingToolbarLayout.setExpandedTitleColor(Color.BLACK);
     }
 
     private fun createBinding(
@@ -56,19 +66,22 @@ class MeTab : Fragment() {
 
     private fun initializeListOfWords() {
         lifecycleScope.launchWhenCreated {
-            val wordsToImprove = viewModel.getWordsToImprove()
+            withContext(Dispatchers.IO) {
 
-            Log.d("list to improve", wordsToImprove.toString())
+                val wordsToImprove = viewModel.getWordsToImprove()
 
-            val adapter = WordListItemAdapter(requireContext(), wordsToImprove)
+                if (wordsToImprove.size == 0) {
+                    binding.headerWordsToImprove.visibility = View.GONE
+                }
 
-            binding.wordsToImprove.apply {
-                wordsToImprove.forEach {
-                    val view = layoutInflater.inflate(R.layout.word_list_item, null) as TextView
-                    view.width = this.width
-                    view.text = it.first.text
+                binding.wordsToImprove.apply {
+                    wordsToImprove.forEach {
+                        val view = layoutInflater.inflate(R.layout.word_list_item, null) as TextView
+                        view.width = this.width
+                        view.text = it.first.text
 
-                    addView(view)
+                        addView(view)
+                    }
                 }
             }
 
@@ -76,62 +89,56 @@ class MeTab : Fragment() {
     }
 
     private fun initializeCards() {
-
-        binding.streakCard.apply {
-            emojiText.text = requireContext().getText(R.string.statistics_item_streak_emoji)
-            labelText.text = requireContext().getText(R.string.statistics_item_streak)
-
-            lifecycleScope.launchWhenCreated {
-                val streak = viewModel.getStreak()
-                val value = streak.toString()
-
-                valueText.text = value
-            }
-        }
-
-        binding.correctCard.apply {
-            emojiText.text = requireContext().getText(R.string.statistics_item_correct_emoji)
-            labelText.text = requireContext().getText(R.string.statistics_item_correct)
-
-            lifecycleScope.launchWhenCreated {
-                val percentage = viewModel.correctPercentage()
-
-                val value = String.format("%.2f", percentage) + "%"
-                valueText.text = value
-            }
-
-        }
-
-        binding.xpCard.apply {
-            emojiText.text = requireContext().getText(R.string.statistics_item_xp_emoji)
-            labelText.text = requireContext().getText(R.string.statistics_item_xp)
-
-            lifecycleScope.launchWhenCreated {
-                val xp = viewModel.getXp()
-                val value = xp.toString()
-                valueText.text = value
-            }
-        }
-
-        binding.levelCard.apply {
-            emojiText.text = requireContext().getText(R.string.statistics_item_level_emoji)
-            labelText.text = requireContext().getText(R.string.statistics_item_level)
-
-            lifecycleScope.launchWhenCreated {
-                val level = viewModel.getLevel()
-                val value = level.toString()
-                valueText.text = value
-
-            }
-        }
-
         lifecycleScope.launchWhenCreated {
-            val xpToNextLevel = viewModel.getXpToNextLevel()
-            binding.xpToNextLevel.text =
-                resources.getString(R.string.statistics_xp_to_next_level, xpToNextLevel)
+            withContext(Dispatchers.IO) {
+                binding.streakCard.apply {
+                    emojiText.text = requireContext().getText(R.string.statistics_item_streak_emoji)
+                    labelText.text = requireContext().getText(R.string.statistics_item_streak)
 
+                    val streak = viewModel.getStreak()
+                    val value = streak.toString()
+
+                    valueText.text = value
+
+                }
+
+                binding.correctCard.apply {
+                    emojiText.text =
+                        requireContext().getText(R.string.statistics_item_correct_emoji)
+                    labelText.text = requireContext().getText(R.string.statistics_item_correct)
+
+                    val percentage = viewModel.correctPercentage()
+
+                    val value = String.format("%.2f", percentage) + "%"
+                    valueText.text = value
+
+                }
+
+                binding.xpCard.apply {
+                    emojiText.text = requireContext().getText(R.string.statistics_item_xp_emoji)
+                    labelText.text = requireContext().getText(R.string.statistics_item_xp)
+
+                    val xp = viewModel.getXp()
+                    val value = xp.toString()
+                    valueText.text = value
+                }
+
+                binding.levelCard.apply {
+                    emojiText.text = requireContext().getText(R.string.statistics_item_level_emoji)
+                    labelText.text = requireContext().getText(R.string.statistics_item_level)
+
+                    val level = viewModel.getLevel()
+                    val value = level.toString()
+                    valueText.text = value
+                }
+
+                val xpToNextLevel = viewModel.getXpToNextLevel()
+
+                activity?.runOnUiThread {
+                    binding.xpToNextLevel.text =
+                        resources.getString(R.string.statistics_xp_to_next_level, xpToNextLevel)
+                }
+            }
         }
     }
-
-
 }

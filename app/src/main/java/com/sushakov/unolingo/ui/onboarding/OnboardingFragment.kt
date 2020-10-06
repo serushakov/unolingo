@@ -43,7 +43,6 @@ class OnboardingFragment private constructor() : Fragment() {
         return binding.root
     }
 
-
     private fun launchAnimation() {
         binding.title
             .animate()

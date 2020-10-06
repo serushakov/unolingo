@@ -11,6 +11,9 @@ import com.sushakov.unolingo.data.record.WordCount
 import com.sushakov.unolingo.data.word.Word
 import com.sushakov.unolingo.data.word.WordDao
 import com.sushakov.unolingo.data.word.WordWithTranslations
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.lang.Math.max
 import java.lang.Math.pow
 import kotlin.math.floor
 import kotlin.math.pow
@@ -35,7 +38,7 @@ class Repository private constructor(
     suspend fun fetchWordsIfNeeded(): Boolean {
         val hasWords = wordDao.getWordCount()
 
-        if(hasWords != 0) return true
+        if (hasWords != 0) return true
 
         try {
             val wordLists = WordsApi.retrofitService.getWords()
@@ -53,21 +56,27 @@ class Repository private constructor(
 
     }
 
-    fun getWords() = wordDao.getAll()
     fun getWords(language: String) = wordDao.getAll(language)
 
     suspend fun deleteWordWithTranslations(wordId: Long) {
-        wordDao.deleteWordWithTranslations(wordId)
+        withContext(Dispatchers.IO) {
+            wordDao.deleteWordWithTranslations(wordId)
+        }
     }
 
     suspend fun addRecord(record: Record) {
-        recordDao.addRecord(record)
+        withContext(Dispatchers.IO) {
+            recordDao.addRecord(record)
+        }
     }
 
     suspend fun getLastResultsPercentage(): Double {
         val results = recordDao.getLastResults()
 
         val correctItems = results.filter { item -> item.result }
+
+        if (correctItems.size == 0) return 0.0
+
         val ratio = (correctItems.size.toDouble() / results.size)
         return ratio * 100.0
     }
@@ -79,7 +88,7 @@ class Repository private constructor(
     suspend fun getStreak(): Int {
         val results = recordDao.getLastResults()
 
-        return results.indexOfFirst { item -> !item.result }
+        return max(results.indexOfFirst { item -> !item.result }, 0)
     }
 
     /**

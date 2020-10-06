@@ -38,12 +38,12 @@ class AddWordDialogViewModel(val repository: Repository, val lifecycleOwner: Lif
         })
     }
 
-    fun setSubmitButtonEnabledValue() {
+    private fun setSubmitButtonEnabledValue() {
         submitButtonEnabled.value =
             wordText.value?.isNotEmpty() ?: false && translationText.value?.isNotEmpty() ?: false
     }
 
-    suspend fun addWord() {
+    private suspend fun addWord() {
         val sourceWordText = wordText.value
         val translationWordText = translationText.value
 

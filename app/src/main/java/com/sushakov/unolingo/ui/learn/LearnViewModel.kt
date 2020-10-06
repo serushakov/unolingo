@@ -7,6 +7,8 @@ import com.sushakov.unolingo.data.Repository
 import com.sushakov.unolingo.data.record.Record
 import com.sushakov.unolingo.data.word.Word
 import com.sushakov.unolingo.data.word.WordWithTranslations
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class LearnViewModel(
     private val repository: Repository,
@@ -21,20 +23,16 @@ class LearnViewModel(
     }
 
 
-    fun wordSelected(word: Word?) {
+    fun setSelectedWord(word: Word?) {
         selectedWord.value = word;
-
-        Log.d("word selected", word?.text ?: "")
     }
 
-
-    suspend fun selectWord(): WordWithTranslations? {
+    suspend fun pickNextWord(): WordWithTranslations? {
         val selectedWord = repository.getRandomWordWithTranslations(Language.ENGLISH)
         currentWord.value = selectedWord
 
         return selectedWord
     }
-
 
     suspend fun checkWord(): Boolean {
         val correctWord = currentWord.value?.translations?.find { it.lang == Language.SPANISH }
@@ -53,7 +51,6 @@ class LearnViewModel(
             saveResult(wordId, isCorrect)
         }
 
-        selectWord()
 
         return isCorrect
     }
@@ -74,10 +71,5 @@ class LearnViewModel(
         }
 
         return options
-    }
-
-
-    suspend fun init() {
-        repository.fetchWordsIfNeeded()
     }
 }

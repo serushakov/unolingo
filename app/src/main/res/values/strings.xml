@@ -16,6 +16,8 @@
     <string name="item_added_toast">Word added successfully</string>
     <string name="item_removed_toast">Word removed successfully</string>
 
+    <string name="card_correct">Correct! 🎉</string>
+
     <!--Me tab strings-->
     <string name="statistics_section_title">Statistics</string>
     <string name="statistics_words_to_improve_section_title">Words to improve</string>

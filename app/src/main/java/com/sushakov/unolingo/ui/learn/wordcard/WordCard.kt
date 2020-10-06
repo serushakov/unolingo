@@ -12,17 +12,110 @@ import com.sushakov.unolingo.R
 import com.sushakov.unolingo.data.word.Word
 import com.sushakov.unolingo.data.word.WordWithTranslations
 import com.sushakov.unolingo.databinding.FragmentWordCardBinding
+import kotlinx.coroutines.runBlocking
 import java.util.ArrayList
 
 class WordCard : Fragment() {
     private lateinit var binding: FragmentWordCardBinding
     private val toggleButtons = mutableListOf<MaterialButton>()
-
     private lateinit var callback: OnCardSelectedListener
 
+    private var word: WordWithTranslations? = null
+    private var language: String? = null
+    private var options: ArrayList<Word>? = null
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_word_card, container, false)
+        binding.setLifecycleOwner { this.lifecycle }
+
+
+        extractArguments()
+        fillButtons()
+        setCardLabel()
+
+        return binding.root
+    }
+
+    private fun extractArguments() {
+        word = arguments?.getSerializable("word") as WordWithTranslations?
+        options = arguments?.getParcelableArrayList<Word>("options")
+        language = arguments?.getString("language")
+    }
+
+    private fun fillButtons() {
+        toggleButtons.addAll(
+            listOf(
+                binding.topStartButtonContainer,
+                binding.topEndButtonContainer,
+                binding.bottomStartButtonContainer,
+                binding.bottomEndButtonContainer
+            )
+        )
+
+        chooseCorrectButton()
+        fillIncorrectOptions()
+        setButtonListeners()
+    }
+
+    private fun chooseCorrectButton() {
+        val correctButton = toggleButtons.random()
+        val correctWord = word?.translations?.find { it.lang == language }
+        correctButton.text = correctWord?.text
+        correctButton.tag = correctWord;
+    }
+
+    private fun fillIncorrectOptions() {
+        options?.forEach { option ->
+            val emptyButton = toggleButtons.find {
+                it.text.isEmpty()
+            }
+            emptyButton?.text = option.text
+            emptyButton?.tag = option
+        }
+    }
+
+    private fun setButtonListeners() {
+        toggleButtons.forEach {
+            it.setOnClickListener { view ->
+                val button = view as MaterialButton
+                button.isCheckable = !button.isCheckable
+                button.isChecked = button.isCheckable
+
+                callback.onCardSelected(if (button.isChecked) button.tag as Word else null)
+                clearChecks(button)
+            }
+        }
+    }
+
+    private fun setCardLabel() {
+        binding.label = word?.word?.text
+    }
+
+    // Unchecks all buttons excluding `ignore`
+    private fun clearChecks(ignore: MaterialButton) {
+        Thread(Runnable {
+            activity?.runOnUiThread {
+                toggleButtons.forEach {
+                    if (it != ignore && it.isChecked) {
+                        it.isChecked = false
+                        it.isCheckable = false
+                    }
+                }
+            }
+        }).start()
+    }
+
     fun setOnCardSelectedListener(callback: OnCardSelectedListener) {
-        Log.d("set_listener", "on card select listener set")
         this.callback = callback
+    }
+
+    interface OnCardSelectedListener {
+        fun onCardSelected(word: Word?)
     }
 
     companion object {
@@ -44,79 +137,4 @@ class WordCard : Fragment() {
             return instance
         }
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val binding: FragmentWordCardBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_word_card, container, false)
-
-        Log.i("debug", "WORD CARD CREATE")
-        binding.setLifecycleOwner { this.lifecycle }
-
-
-        val word = arguments?.getSerializable("word") as WordWithTranslations
-        val options = arguments?.getParcelableArrayList<Word>("options")
-        val language = arguments?.getString("language")
-
-        Log.i("debug", word.word.text ?: "NO WORD FOUND")
-
-        binding.label = word.word.text
-
-        this.binding = binding
-
-        toggleButtons.add(binding.topStartButtonContainer)
-        toggleButtons.add(binding.topEndButtonContainer)
-        toggleButtons.add(binding.bottomStartButtonContainer)
-        toggleButtons.add(binding.bottomEndButtonContainer)
-
-        val correctButton = toggleButtons.random()
-        val correctWord =word.translations.find { it.lang == language }
-        correctButton.text = correctWord?.text
-        correctButton.tag = correctWord;
-
-        options?.forEach { option ->
-            val emptyButton = toggleButtons.find {
-                it.text.isEmpty()
-            }
-            emptyButton?.text = option.text
-            emptyButton?.tag = option
-        }
-
-        toggleButtons.forEach {
-
-            it.setOnClickListener { view ->
-                val button = view as MaterialButton
-                button.isCheckable = !button.isCheckable
-                button.isChecked = button.isCheckable
-
-                callback.onCardSelected(if(button.isChecked) button.tag as Word else null)
-                clearChecks(button)
-            }
-
-
-
-        }
-
-        return binding.root
-    }
-
-    interface OnCardSelectedListener {
-        fun onCardSelected(word: Word?)
-    }
-
-    private fun clearChecks(ignore: MaterialButton) {
-        Thread(Runnable {
-            activity?.runOnUiThread {
-                toggleButtons.forEach {
-                    if (it != ignore && it.isChecked) {
-                        it.isChecked = false
-                        it.isCheckable = false
-                    }
-                }
-            }
-        }).start()
-    }
-
 }

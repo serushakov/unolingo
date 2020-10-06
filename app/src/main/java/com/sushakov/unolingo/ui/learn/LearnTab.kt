@@ -22,31 +22,48 @@ import kotlinx.coroutines.launch
 
 class LearnTab : Fragment(), WordCard.OnCardSelectedListener {
     private lateinit var viewModel: LearnViewModel
+    private lateinit var binding: FragmentLearnTabBinding
+    private var currentCard: WordCard? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentLearnTabBinding =
+        binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_learn_tab, container, false)
 
-        val factory =
-            InjectorUtils.provideLearnViewModelFactory(requireContext(), viewLifecycleOwner)
-        val viewModel = ViewModelProvider(this, factory)
-            .get(LearnViewModel::class.java)
+        createViewModel()
 
-        this.viewModel = viewModel
         binding.learnViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        selectInitialWord()
+        setButtonListener()
 
+        viewModel.currentWord.observe(viewLifecycleOwner, currentWordChangeObserver)
+
+        return binding.root
+    }
+
+    private fun createViewModel() {
+        val factory =
+            InjectorUtils.provideLearnViewModelFactory(requireContext(), viewLifecycleOwner)
+        viewModel = ViewModelProvider(this, factory)
+            .get(LearnViewModel::class.java)
+    }
+
+    private fun selectInitialWord() {
         lifecycleScope.launchWhenCreated {
-            viewModel.selectWord()
+            viewModel.pickNextWord()
         }
+    }
 
+    private fun setButtonListener() {
         binding.checkButton.setOnClickListener {
             lifecycleScope.launch {
+
                 val correct = viewModel.checkWord()
+                viewModel.pickNextWord()
 
                 Toast.makeText(
                     requireContext(),
@@ -55,10 +72,6 @@ class LearnTab : Fragment(), WordCard.OnCardSelectedListener {
                 ).show()
             }
         }
-
-        viewModel.currentWord.observe(viewLifecycleOwner, currentWordChangeObserver)
-
-        return binding.root
     }
 
     private val currentWordChangeObserver = Observer<WordWithTranslations?> { nextWord ->
@@ -82,6 +95,7 @@ class LearnTab : Fragment(), WordCard.OnCardSelectedListener {
 
             fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
             fragmentTransaction.replace(R.id.cardContainer, fragment)
+            currentCard = fragment
             fragmentTransaction.commit();
         }
     }
@@ -91,7 +105,6 @@ class LearnTab : Fragment(), WordCard.OnCardSelectedListener {
         fun newInstance() = LearnTab()
     }
 
-
     override fun onAttachFragment(fragment: Fragment) {
         if (fragment is WordCard) {
             fragment.setOnCardSelectedListener(this)
@@ -99,6 +112,6 @@ class LearnTab : Fragment(), WordCard.OnCardSelectedListener {
     }
 
     override fun onCardSelected(word: Word?) {
-        viewModel.wordSelected(word)
+        viewModel.setSelectedWord(word)
     }
 }

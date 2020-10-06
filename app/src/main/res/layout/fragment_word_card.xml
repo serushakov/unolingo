@@ -5,6 +5,7 @@
     tools:context="com.sushakov.unolingo.ui.learn.wordcard.WordCard">
 
     <data>
+
         <variable
             name="label"
             type="String" />
@@ -57,8 +58,8 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:autoSizeMaxTextSize="14sp"
-                    android:breakStrategy="balanced"
                     android:autoSizeTextType="uniform"
+                    android:breakStrategy="balanced"
                     app:layout_constraintBottom_toTopOf="@id/bottomEndButtonContainer"
                     app:layout_constraintDimensionRatio="1"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -71,9 +72,9 @@
                     style="@style/UnoLingo.WordButton"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:breakStrategy="balanced"
                     android:autoSizeMaxTextSize="14sp"
                     android:autoSizeTextType="uniform"
+                    android:breakStrategy="balanced"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1"
                     app:layout_constraintEnd_toStartOf="@id/bottomEndButtonContainer"
@@ -88,9 +89,9 @@
                     style="@style/UnoLingo.WordButton"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:breakStrategy="balanced"
                     android:autoSizeMaxTextSize="14sp"
                     android:autoSizeTextType="uniform"
+                    android:breakStrategy="balanced"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1"
                     app:layout_constraintEnd_toEndOf="parent"

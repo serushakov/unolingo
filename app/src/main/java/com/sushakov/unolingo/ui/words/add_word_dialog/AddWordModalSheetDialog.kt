@@ -29,25 +29,33 @@ class AddWordModalSheetDialog : BottomSheetDialogFragment() {
             container,
             false
         )
-        binding.lifecycleOwner = viewLifecycleOwner
 
-
-        val factory =
-            InjectorUtils.provideAddWordDialogViewModel(requireContext(), viewLifecycleOwner)
-        viewModel = ViewModelProvider(this, factory)
-            .get(AddWordDialogViewModel::class.java)
+        createViewModel()
 
         binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.cancelButton.setOnClickListener {
             callback.onCancelClick()
         }
 
+        observeCreatedWord()
+
+        return binding.root
+    }
+
+    fun createViewModel() {
+        val factory =
+            InjectorUtils.provideAddWordDialogViewModel(requireContext(), viewLifecycleOwner)
+        viewModel = ViewModelProvider(this, factory)
+            .get(AddWordDialogViewModel::class.java)
+    }
+
+
+    fun observeCreatedWord() {
         viewModel.createdWordId.observe(viewLifecycleOwner, Observer {
             callback.onWordAdded(it)
         })
-
-        return binding.root
     }
 
     interface AddWordModalCallback {
