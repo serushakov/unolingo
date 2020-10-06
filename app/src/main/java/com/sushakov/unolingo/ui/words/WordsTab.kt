@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.sushakov.unolingo.R
 import com.sushakov.unolingo.databinding.FragmentWordsTabBinding
-import com.sushakov.unolingo.ui.InjectorUtils
+import com.sushakov.unolingo.InjectorUtils
 import com.sushakov.unolingo.ui.words.add_word_dialog.AddWordModalSheetDialog
 import kotlin.math.roundToInt
 

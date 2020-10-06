@@ -1,13 +1,14 @@
-package com.sushakov.unolingo.ui
+package com.sushakov.unolingo
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import androidx.room.Room
 import com.sushakov.unolingo.data.Database
 import com.sushakov.unolingo.data.Repository
+import com.sushakov.unolingo.ui.MainActivityViewModel
+import com.sushakov.unolingo.ui.MainActivityViewModelFactory
 import com.sushakov.unolingo.ui.learn.LearnViewModelFactory
 import com.sushakov.unolingo.ui.learn.MeTabViewModelFactory
-import com.sushakov.unolingo.ui.words.WordsTab
 import com.sushakov.unolingo.ui.words.WordsTabViewModelFactory
 import com.sushakov.unolingo.ui.words.add_word_dialog.AddWordDialogViewModelFactory
 
@@ -29,7 +30,10 @@ object InjectorUtils {
         lifecycleOwner: LifecycleOwner
     ): WordsTabViewModelFactory {
 
-        return WordsTabViewModelFactory(getRepository(context), lifecycleOwner)
+        return WordsTabViewModelFactory(
+            getRepository(
+                context
+            ), lifecycleOwner)
     }
 
     fun provideLearnViewModelFactory(
@@ -59,6 +63,16 @@ object InjectorUtils {
         lifecycleOwner: LifecycleOwner
     ): MeTabViewModelFactory {
         return MeTabViewModelFactory(
+            getRepository(context),
+            lifecycleOwner
+        )
+    }
+
+    fun provideMainActivityViewModel(
+        context: Context,
+        lifecycleOwner: LifecycleOwner
+    ): MainActivityViewModelFactory {
+        return MainActivityViewModelFactory(
             getRepository(context),
             lifecycleOwner
         )

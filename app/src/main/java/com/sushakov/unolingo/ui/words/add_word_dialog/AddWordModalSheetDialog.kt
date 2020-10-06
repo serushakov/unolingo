@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sushakov.unolingo.R
 import com.sushakov.unolingo.databinding.AddWordModalBottomSheetBinding
-import com.sushakov.unolingo.ui.InjectorUtils
+import com.sushakov.unolingo.InjectorUtils
 
 class AddWordModalSheetDialog : BottomSheetDialogFragment() {
     private lateinit var binding: AddWordModalBottomSheetBinding

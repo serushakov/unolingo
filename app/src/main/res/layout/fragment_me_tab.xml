@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:background="@drawable/border_bottom"
-                    android:text="@string/words_to_improve_section_title" />
+                    android:text="@string/statistics_words_to_improve_section_title" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/wordsToImprove"

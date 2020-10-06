@@ -16,7 +16,7 @@ import com.sushakov.unolingo.data.Language
 import com.sushakov.unolingo.data.word.Word
 import com.sushakov.unolingo.data.word.WordWithTranslations
 import com.sushakov.unolingo.databinding.FragmentLearnTabBinding
-import com.sushakov.unolingo.ui.InjectorUtils
+import com.sushakov.unolingo.InjectorUtils
 import com.sushakov.unolingo.ui.learn.wordcard.WordCard
 import kotlinx.coroutines.launch
 
