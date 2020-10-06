@@ -7,5 +7,7 @@ import com.sushakov.unolingo.data.Repository
 class MeTabViewModel(private val repository: Repository, lifecycleOwner: LifecycleOwner) :
     ViewModel() {
 
-    suspend fun correctPercentage() = repository.getLastResultsPercentage()
+    fun correctPercentage() = repository.getLastResultsPercentage()
+
+    fun getStreak() = repository.getStreak()
 }

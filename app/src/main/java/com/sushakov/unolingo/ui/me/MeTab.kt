@@ -58,6 +58,13 @@ class MeTab : Fragment() {
         binding.streakCard.apply {
             emojiText.text = requireContext().getText(R.string.statistics_item_streak_emoji)
             labelText.text = requireContext().getText(R.string.statistics_item_streak)
+
+            lifecycleScope.launchWhenCreated {
+                viewModel.getStreak().observe(viewLifecycleOwner, Observer {
+                    val value = it?.toString() ?: "N/A"
+                    valueText.text = value
+                })
+            }
         }
 
         binding.correctCard.apply {

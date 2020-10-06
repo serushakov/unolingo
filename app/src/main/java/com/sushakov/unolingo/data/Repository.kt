@@ -67,6 +67,21 @@ class Repository private constructor(
         )
     }
 
+    /**
+     * This is not the best way to findi this out,
+     * but I don't have time to do a proper SQL query
+     */
+    fun getStreak(): LiveData<Int> {
+        val results = recordDao.getLastResults()
+
+        return Transformations.distinctUntilChanged(
+            Transformations.map(results) {
+                Log.d("streak", it.toString())
+                it.indexOfFirst { item -> !item.result }
+            }
+        )
+    }
+
     companion object {
         @Volatile
         private var instance: Repository? = null
