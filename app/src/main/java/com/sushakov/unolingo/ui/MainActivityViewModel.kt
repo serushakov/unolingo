@@ -9,4 +9,7 @@ class MainActivityViewModel(
     private val lifecycleOwner: LifecycleOwner
 ) : ViewModel() {
 
+    suspend fun loadWords() = repository.fetchWordsIfNeeded()
+
+
 }

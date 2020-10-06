@@ -14,8 +14,8 @@ abstract class WordDao {
     @Query("SELECT * FROM word WHERE lang=:language ORDER BY text")
     abstract fun getAll(language: String): LiveData<List<WordWithTranslations>>
 
-    @Query("SELECT * FROM WordCrossRef")
-    abstract fun getRelations(): LiveData<List<WordCrossRef>>
+    @Query("SELECT COUNT(*) from word")
+    abstract suspend fun getWordCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun createWord(word: Word): Long

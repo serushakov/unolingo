@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primaryTextColor">
+        android:background="@color/design_default_color_background">
 
         <TextView
             android:id="@+id/title"
@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="54dp"
+            android:alpha="0"
             android:text="@string/onboarding_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +34,7 @@
             android:id="@+id/linearLayoutCompat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:alpha="0"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,12 +76,90 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:text="@string/onboarding_button"
+            android:alpha="0"
             android:enabled="@{viewModel.buttonEnabled}"
+            android:text="@string/onboarding_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
 
+        <RelativeLayout
+            android:id="@+id/greetingContainer"
+            android:background="@color/design_default_color_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:translationZ="-10dp"
+            android:alpha="0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/textContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.4">
+
+                    <TextView
+                        android:id="@+id/greetingTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="54dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/onboarding_greeting"
+                        android:textAlignment="center"
+                        android:textColor="@color/secondaryTextColor"
+                        android:textSize="54sp"
+                        app:layout_constraintBottom_toTopOf="@+id/textView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.06999999" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        style="@style/UnoLingo.Typography.SectionHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/onboarding_greeting_subtitle"
+                        android:textAlignment="center"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/greetingTitle" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:id="@+id/goButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="32dp"
+                    android:paddingVertical="16dp"
+                    android:text="@string/onboarding_greeting_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textContainer" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>

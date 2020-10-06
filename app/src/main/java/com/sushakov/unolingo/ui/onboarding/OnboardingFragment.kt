@@ -12,26 +12,71 @@ import com.sushakov.unolingo.databinding.FragmentOnboardingBinding
 
 class OnboardingFragment private constructor() : Fragment() {
     private var callback: Callback? = null
+    private lateinit var binding: FragmentOnboardingBinding
+    private lateinit var viewModel: OnboardingViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentOnboardingBinding =
+        binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_onboarding, container, false)
 
-        val viewModel: OnboardingViewModel = OnboardingViewModel(viewLifecycleOwner)
+        viewModel = OnboardingViewModel(viewLifecycleOwner)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
 
         binding.button.setOnClickListener {
-            callback?.onContinueClick(viewModel.nameValue.value ?: "")
+            callback?.onNameEnter(viewModel.nameValue.value ?: "")
+            showGreeting()
         }
+
+        binding.goButton.setOnClickListener {
+            callback?.onContinueClick()
+        }
+
+        launchAnimation()
 
 
         return binding.root
+    }
+
+
+    private fun launchAnimation() {
+        binding.title
+            .animate()
+            .alpha(1f)
+            .setDuration(300)
+            .withEndAction {
+                binding.linearLayoutCompat
+                    .animate()
+                    .alpha(1f)
+                    .setDuration(300)
+                    .setStartDelay(1000)
+                    .start()
+
+                binding.button
+                    .animate()
+                    .alpha(1f)
+                    .setDuration(300)
+                    .setStartDelay(1000)
+                    .start()
+            }
+            .start()
+    }
+
+    private fun showGreeting() {
+        binding.greetingTitle.text = resources.getString(
+            R.string.onboarding_greeting,
+            viewModel.nameValue.value ?: ""
+        )
+        binding.greetingContainer.translationZ = 10f
+        binding.greetingContainer
+            .animate()
+            .alpha(1f)
+            .start()
     }
 
 
@@ -41,7 +86,8 @@ class OnboardingFragment private constructor() : Fragment() {
 
 
     interface Callback {
-        fun onContinueClick(name: String)
+        fun onContinueClick()
+        fun onNameEnter(name: String)
     }
 
     companion object {

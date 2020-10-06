@@ -39,7 +39,8 @@
     <string name="onboarding_title">Hello 👋</string>
     <string name="oboarding_name_question">What\'s your name?</string>
     <string name="onboarding_name_hint">Name</string>
-    <string name="onboarding_greeting">Welcome, %1$d!</string>
     <string name="onboarding_button">Continue</string>
-
+    <string name="onboarding_greeting">Welcome, %1$s!</string>
+    <string name="onboarding_greeting_subtitle">Let\'s learn Spanish!</string>
+    <string name="onboarding_greeting_button">Let\'s go!</string>
 </resources>

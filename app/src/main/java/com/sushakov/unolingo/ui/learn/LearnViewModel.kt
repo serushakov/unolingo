@@ -78,6 +78,6 @@ class LearnViewModel(
 
 
     suspend fun init() {
-        repository.fetchWords()
+        repository.fetchWordsIfNeeded()
     }
 }

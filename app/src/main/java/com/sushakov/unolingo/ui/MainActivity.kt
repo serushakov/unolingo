@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.sushakov.unolingo.InjectorUtils
 import com.sushakov.unolingo.R
 import com.sushakov.unolingo.databinding.ActivityMainBinding
@@ -21,14 +23,26 @@ class MainActivity : AppCompatActivity(), OnboardingFragment.Callback {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainActivityViewModel
 
-    private var onboardingFragment: OnboardingFragment? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        initViewModel()
+        setBottomNavigationItemSelectedListener()
+        showOnboarding()
+        loadWords()
+    }
 
+    private fun openInitialTab() {
+        // This will trigger onItemSelectedListener, which will initialize the tab
+        binding.bottomNavigation.selectedItemId =
+            R.id.tab_learn
+
+    }
+
+    private fun initViewModel() {
         val factory =
             InjectorUtils.provideMainActivityViewModel(
                 this,
@@ -37,18 +51,6 @@ class MainActivity : AppCompatActivity(), OnboardingFragment.Callback {
 
         viewModel = ViewModelProvider(viewModelStore, factory)
             .get(MainActivityViewModel::class.java)
-
-        setContentView(binding.root)
-
-        setBottomNavigationItemSelectedListener()
-        showOnboarding()
-    }
-
-    private fun openInitialTab() {
-        // This will trigger onItemSelectedListener, which will initialize the tab
-        binding.bottomNavigation.selectedItemId =
-            R.id.tab_words
-
     }
 
     private fun showOnboarding() {
@@ -58,17 +60,20 @@ class MainActivity : AppCompatActivity(), OnboardingFragment.Callback {
 
         fragment.registerCallback(this)
 
-
-
-        fragmentTransaction.setCustomAnimations(
-            R.anim.fragment_fade_enter,
-            R.anim.slide_out_top
-        )
-
-        onboardingFragment = fragment
-
         fragmentTransaction.replace(R.id.onboardingContainer, fragment)
+
         fragmentTransaction.commit()
+
+    }
+
+    private fun loadWords() {
+        lifecycleScope.launchWhenCreated {
+            val result = viewModel.loadWords()
+
+            if(!result) {
+                Toast.makeText(applicationContext, "Failed to fetch words! Please ensure network connectivity", Toast.LENGTH_LONG)
+            }
+        }
     }
 
     private fun setBottomNavigationItemSelectedListener() {
@@ -92,13 +97,20 @@ class MainActivity : AppCompatActivity(), OnboardingFragment.Callback {
     }
 
     private fun hideOnboarding() {
-        binding.onboardingContainer.animate().translationY(-2000f).withLayer().withEndAction {
-            (binding.onboardingContainer.parent as ViewGroup).removeView(binding.onboardingContainer)
-        }
+        binding.onboardingContainer
+            .animate()
+            .translationY(-2000f)
+            .withLayer()
+            .withEndAction {
+                (binding.onboardingContainer.parent as ViewGroup).removeView(binding.onboardingContainer)
+            }
     }
 
-    override fun onContinueClick(name: String) {
+    override fun onNameEnter(name: String) {
         openInitialTab()
+    }
+
+    override fun onContinueClick() {
         hideOnboarding()
     }
 }
