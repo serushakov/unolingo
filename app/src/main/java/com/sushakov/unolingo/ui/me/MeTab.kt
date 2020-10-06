@@ -1,5 +1,6 @@
 package com.sushakov.unolingo.ui.me
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ class MeTab : Fragment() {
         initializeCards()
         initializeListOfWords()
         initializeCollapsingToolbar()
+        setTabTitle()
 
         return binding.root
     }
@@ -143,5 +145,13 @@ class MeTab : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setTabTitle() {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+
+        val name = sharedPref.getString(getString(R.string.preference_name), null) ?: return
+
+        binding.toolbar.title = name
     }
 }

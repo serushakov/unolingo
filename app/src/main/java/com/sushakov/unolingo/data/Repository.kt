@@ -35,10 +35,10 @@ class Repository private constructor(
         return wordDao.getRandomWord(ignoreList, language)
     }
 
-    suspend fun fetchWordsIfNeeded(): Boolean {
+    suspend fun fetchWordsIfNeeded(): Exception? {
         val hasWords = wordDao.getWordCount()
 
-        if (hasWords != 0) return true
+        if (hasWords != 0) return null
 
         try {
             val wordLists = WordsApi.retrofitService.getWords()
@@ -48,10 +48,10 @@ class Repository private constructor(
             }
 
             wordDao.addTranslationPairs(pairs)
-            return true
+            return null
         } catch (e: Exception) {
             Log.e("fetch", "Failed to fetch words", e)
-            return false
+            return e
         }
 
     }

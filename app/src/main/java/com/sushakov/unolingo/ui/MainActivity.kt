@@ -76,16 +76,19 @@ class MainActivity : AppCompatActivity(), OnboardingFragment.Callback {
     }
 
     private fun loadWords() {
+        val context = this
 
         lifecycleScope.launchWhenCreated {
-            val result = viewModel.loadWords()
+            val exception = viewModel.loadWords()
 
-            if (!result) {
-                Toast.makeText(
-                    applicationContext,
-                    "Failed to fetch words! Please ensure network connectivity",
-                    Toast.LENGTH_LONG
-                )
+            if (exception != null) {
+                runOnUiThread {
+                    Toast.makeText(
+                        context,
+                        "Failed to fetch words! Please ensure network connectivity! The app will not work properly",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }
