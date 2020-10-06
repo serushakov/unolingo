@@ -15,10 +15,10 @@ abstract class RecordDao {
     abstract suspend fun getRecordWithWord(id: Long): RecordWithWord
 
     @Query("SELECT * FROM record ORDER BY id DESC LIMIT :amount")
-    abstract fun getLastResults(amount: Int = 100): LiveData<List<Record>>
+    abstract suspend fun getLastResults(amount: Int = 100): List<Record>
 
     @Query("SELECT COUNT(*) FROM record WHERE result")
-    abstract fun getCorrectAnswerCount(): LiveData<Int>
+    abstract suspend fun getCorrectAnswerCount(): Int
 
     @Query("SELECT wordId,COUNT(result) as count  FROM record WHERE result=0 GROUP BY wordId ORDER BY count DESC LIMIT :amount")
     abstract suspend fun getWorstWords(amount: Int = 5): List<WordCount>

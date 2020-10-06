@@ -83,10 +83,10 @@ class MeTab : Fragment() {
             labelText.text = requireContext().getText(R.string.statistics_item_streak)
 
             lifecycleScope.launchWhenCreated {
-                viewModel.getStreak().observe(viewLifecycleOwner, Observer {
-                    val value = it?.toString() ?: "N/A"
-                    valueText.text = value
-                })
+                val streak = viewModel.getStreak()
+                val value = streak.toString()
+
+                valueText.text = value
             }
         }
 
@@ -95,11 +95,12 @@ class MeTab : Fragment() {
             labelText.text = requireContext().getText(R.string.statistics_item_correct)
 
             lifecycleScope.launchWhenCreated {
-                viewModel.correctPercentage().observe(viewLifecycleOwner, Observer {
-                    val value = if (it != null) "${String.format("%.2f", it)}%" else "N/A"
-                    valueText.text = value
-                })
+                val percentage = viewModel.correctPercentage()
+
+                val value = String.format("%.2f", percentage) + "%"
+                valueText.text = value
             }
+
         }
 
         binding.xpCard.apply {
@@ -107,10 +108,9 @@ class MeTab : Fragment() {
             labelText.text = requireContext().getText(R.string.statistics_item_xp)
 
             lifecycleScope.launchWhenCreated {
-                viewModel.getXp().observe(viewLifecycleOwner, Observer {
-                    val value = it?.toString() ?: "N/A"
-                    valueText.text = value
-                })
+                val xp = viewModel.getXp()
+                val value = xp.toString()
+                valueText.text = value
             }
         }
 
@@ -119,18 +119,18 @@ class MeTab : Fragment() {
             labelText.text = requireContext().getText(R.string.statistics_item_level)
 
             lifecycleScope.launchWhenCreated {
-                viewModel.getLevel().observe(viewLifecycleOwner, Observer {
-                    val value = it?.toString() ?: "N/A"
-                    valueText.text = value
-                })
+                val level = viewModel.getLevel()
+                val value = level.toString()
+                valueText.text = value
+
             }
         }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.getXpToNextLevel().observe(viewLifecycleOwner, Observer {
-                binding.xpToNextLevel.text =
-                    resources.getString(R.string.statistics_xp_to_next_level, it)
-            })
+            val xpToNextLevel = viewModel.getXpToNextLevel()
+            binding.xpToNextLevel.text =
+                resources.getString(R.string.statistics_xp_to_next_level, xpToNextLevel)
+
         }
     }
 

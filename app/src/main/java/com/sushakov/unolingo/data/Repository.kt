@@ -59,46 +59,36 @@ class Repository private constructor(
         recordDao.addRecord(record)
     }
 
-    fun getLastResultsPercentage(): LiveData<Double?> {
+    suspend fun getLastResultsPercentage(): Double {
         val results = recordDao.getLastResults()
 
-        return Transformations.distinctUntilChanged(
-            Transformations.map(results) {
-                Log.d("records", it.toString())
-                val correctItems = it.filter { item -> item.result }
-                val ratio = (correctItems.size.toDouble() / it.size)
-                ratio * 100.0
-            }
-        )
+        val correctItems = results.filter { item -> item.result }
+        val ratio = (correctItems.size.toDouble() / results.size)
+        return ratio * 100.0
     }
 
     /**
      * This is not the best way to find this out,
      * but I don't have time to do a proper SQL query
      */
-    fun getStreak(): LiveData<Int> {
+    suspend fun getStreak(): Int {
         val results = recordDao.getLastResults()
 
-        return Transformations.distinctUntilChanged(
-            Transformations.map(results) {
-                Log.d("streak", it.toString())
-                it.indexOfFirst { item -> !item.result }
-            }
-        )
+        return results.indexOfFirst { item -> !item.result }
     }
 
     /**
      * This is not the best way to find this out,
      * but I don't have time to do a proper SQL query
      */
-    fun getXP(): LiveData<Int> {
+    suspend fun getXP(): Int {
         val correctAnswers = recordDao.getCorrectAnswerCount()
 
-        return Transformations.distinctUntilChanged(Transformations.map(correctAnswers) { it * 35 })
+        return correctAnswers * 35
     }
 
 
-    private fun getXpToNextLevel(xp: Int): Double {
+    private suspend fun getXpToNextLevel(xp: Int): Double {
         return floor(xp + 300 * 2.0.pow(xp / 7.0));
     };
 
@@ -106,7 +96,7 @@ class Repository private constructor(
     /**
      * Converts level into an XP value required to get that level
      */
-    private fun levelToXp(level: Int): Double {
+    private suspend fun levelToXp(level: Int): Double {
         var xp = 0.0;
 
         for (i in (1..level)) {
@@ -119,35 +109,25 @@ class Repository private constructor(
     /**
      * Finds user's current level by finding which level bracket current xp belongs to
      */
-    fun getLevel(): LiveData<Int> {
+    suspend fun getLevel(): Int {
         val xp = getXP()
 
-        return Transformations.distinctUntilChanged(
-            Transformations.map(xp) {
-                var level = 1
-                while (true) {
-                    if (levelToXp(level + 1).toInt() > it) break
-                    level++
-                }
-                level
-            }
-        )
+        var level = 1
+        while (true) {
+            if (levelToXp(level + 1).toInt() > xp) break
+            level++
+        }
+
+        return level
+
     }
 
-    fun getXpToNextLevel(): LiveData<Int> {
+    suspend fun getXpToNextLevel(): Int {
+        val level = getLevel()
         val xp = getXP()
 
-        return Transformations.distinctUntilChanged(
-            Transformations.map(xp) {
-                var level = 1
-                while (true) {
-                    if (levelToXp(level + 1).toInt() > it) break
-                    level++
-                }
 
-                levelToXp(level + 1).toInt() - it
-            }
-        )
+        return levelToXp(level + 1).toInt() - xp
     }
 
     suspend fun getWordsToImprove() =

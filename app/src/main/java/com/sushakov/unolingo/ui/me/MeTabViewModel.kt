@@ -7,11 +7,10 @@ import com.sushakov.unolingo.data.Repository
 class MeTabViewModel(private val repository: Repository, lifecycleOwner: LifecycleOwner) :
     ViewModel() {
 
-    fun correctPercentage() = repository.getLastResultsPercentage()
-
-    fun getStreak() = repository.getStreak()
-    fun getXp() = repository.getXP()
-    fun getLevel() = repository.getLevel()
-    fun getXpToNextLevel() = repository.getXpToNextLevel()
+    suspend fun correctPercentage() = repository.getLastResultsPercentage()
+    suspend fun getStreak() = repository.getStreak()
+    suspend fun getXp() = repository.getXP()
+    suspend fun getLevel() = repository.getLevel()
+    suspend fun getXpToNextLevel() = repository.getXpToNextLevel()
     suspend fun getWordsToImprove() = repository.getWordsToImprove()
 }
