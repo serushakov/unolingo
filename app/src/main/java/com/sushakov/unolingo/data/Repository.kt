@@ -1,15 +1,18 @@
 package com.sushakov.unolingo.data
 
+import android.R.attr.level
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.map
 import com.sushakov.unolingo.data.record.Record
 import com.sushakov.unolingo.data.record.RecordDao
 import com.sushakov.unolingo.data.word.Word
 import com.sushakov.unolingo.data.word.WordDao
 import com.sushakov.unolingo.data.word.WordWithTranslations
-import java.lang.Exception
+import java.lang.Math.pow
+import kotlin.math.floor
+import kotlin.math.pow
+
 
 class Repository private constructor(
     private val wordDao: WordDao,
@@ -68,7 +71,7 @@ class Repository private constructor(
     }
 
     /**
-     * This is not the best way to findi this out,
+     * This is not the best way to find this out,
      * but I don't have time to do a proper SQL query
      */
     fun getStreak(): LiveData<Int> {
@@ -78,6 +81,69 @@ class Repository private constructor(
             Transformations.map(results) {
                 Log.d("streak", it.toString())
                 it.indexOfFirst { item -> !item.result }
+            }
+        )
+    }
+
+    /**
+     * This is not the best way to find this out,
+     * but I don't have time to do a proper SQL query
+     */
+    fun getXP(): LiveData<Int> {
+        val correctAnswers = recordDao.getCorrectAnswerCount()
+
+        return Transformations.distinctUntilChanged(Transformations.map(correctAnswers) { it * 35 })
+    }
+
+
+    private fun getXpToNextLevel(xp: Int): Double {
+        return floor(xp + 300 * 2.0.pow(xp / 7.0));
+    };
+
+
+    /**
+     * Converts level into an XP value required to get that level
+     */
+    private fun levelToXp(level: Int): Double {
+        var xp = 0.0;
+
+        for (i in (1..level)) {
+            xp += this.getXpToNextLevel(i);
+        }
+
+        return floor(xp / 4.0);
+    };
+
+    /**
+     * Finds user's current level by finding which level bracket current xp belongs to
+     */
+    fun getLevel(): LiveData<Int> {
+        val xp = getXP()
+
+        return Transformations.distinctUntilChanged(
+            Transformations.map(xp) {
+                var level = 1
+                while (true) {
+                    if (levelToXp(level + 1).toInt() > it) break
+                    level++
+                }
+                level
+            }
+        )
+    }
+
+    fun getXpToNextLevel(): LiveData<Int> {
+        val xp = getXP()
+
+        return Transformations.distinctUntilChanged(
+            Transformations.map(xp) {
+                var level = 1
+                while (true) {
+                    if (levelToXp(level + 1).toInt() > it ) break
+                    level++
+                }
+
+                levelToXp(level + 1).toInt() - it
             }
         )
     }

@@ -79,6 +79,36 @@ class MeTab : Fragment() {
             }
         }
 
+        binding.xpCard.apply {
+            emojiText.text = requireContext().getText(R.string.statistics_item_xp_emoji)
+            labelText.text = requireContext().getText(R.string.statistics_item_xp)
+
+            lifecycleScope.launchWhenCreated {
+                viewModel.getXp().observe(viewLifecycleOwner, Observer {
+                    val value = it?.toString() ?: "N/A"
+                    valueText.text = value
+                })
+            }
+        }
+
+        binding.levelCard.apply {
+            emojiText.text = requireContext().getText(R.string.statistics_item_level_emoji)
+            labelText.text = requireContext().getText(R.string.statistics_item_level)
+
+            lifecycleScope.launchWhenCreated {
+                viewModel.getLevel().observe(viewLifecycleOwner, Observer {
+                    val value = it?.toString() ?: "N/A"
+                    valueText.text = value
+                })
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.getXpToNextLevel().observe(viewLifecycleOwner, Observer {
+                binding.xpToNextLevel.text =
+                    resources.getString(R.string.statistics_xp_to_next_level, it)
+            })
+        }
     }
 
 

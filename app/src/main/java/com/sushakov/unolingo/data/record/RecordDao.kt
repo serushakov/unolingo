@@ -16,4 +16,7 @@ abstract class RecordDao {
     @Query("SELECT * FROM record ORDER BY id DESC LIMIT :amount")
     abstract fun getLastResults(amount: Int = 100): LiveData<List<Record>>
 
+    @Query("SELECT COUNT(*) FROM record WHERE result")
+    abstract fun getCorrectAnswerCount(): LiveData<Int>
+
 }

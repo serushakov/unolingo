@@ -32,4 +32,6 @@
     <string name="statistics_item_xp">XP</string>
     <string name="statistics_item_xp_emoji">⚔️</string>
 
+    <string name="statistics_xp_to_next_level">XP to next level: %1$d</string>
+
 </resources>

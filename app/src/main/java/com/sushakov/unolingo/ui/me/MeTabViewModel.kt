@@ -10,4 +10,7 @@ class MeTabViewModel(private val repository: Repository, lifecycleOwner: Lifecyc
     fun correctPercentage() = repository.getLastResultsPercentage()
 
     fun getStreak() = repository.getStreak()
+    fun getXp() = repository.getXP()
+    fun getLevel() = repository.getLevel()
+    fun getXpToNextLevel() = repository.getXpToNextLevel()
 }
