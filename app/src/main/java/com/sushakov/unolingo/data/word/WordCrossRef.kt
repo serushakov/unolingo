@@ -5,5 +5,6 @@ import androidx.room.Entity
 
 @Entity(primaryKeys = ["parentId", "translationId"])
 data class WordCrossRef(
-    val parentId: Long, val translationId: Long
+    val parentId: Long,
+    val translationId: Long
 )

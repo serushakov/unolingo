@@ -29,7 +29,6 @@ data class Word(
         return 0
     }
 
-
     companion object CREATOR : Parcelable.Creator<Word> {
         override fun createFromParcel(parcel: Parcel): Word {
             return Word(parcel)
@@ -77,6 +76,5 @@ data class Word(
             return d[m][n]
         }
     }
-
 }
 
